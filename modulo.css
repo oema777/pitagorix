@@ -1,0 +1,64 @@
+
+html{
+    width:fit-content;
+}
+
+span {
+    display: inline-block;
+    text-align: end;
+    margin: 0px;
+    border-right: 1px solid black; 
+}
+.span-ultimo{
+    display: flex;
+    flex-direction: column;
+}
+span{
+    display: flex;
+    flex-direction: column;
+}
+p{
+    text-align: end;
+    margin: 0px;
+    border-bottom: 1px solid black;
+}
+
+.ultimo{
+    display: none;
+}
+
+div{
+    display: flex;
+    gap: 40px;
+    height: 400px;
+}
+
+#div-cuadros{
+    flex-direction: column;
+    gap:40px;
+    height: auto;
+}
+
+#div-boton{
+    height: auto;
+}
+
+
+
+section{
+    display: flex;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    width: max-content;
+}
+.ultimo-predetermidado{
+    display: none;
+    border-bottom: 1px solid black;
+}
+button{
+    display: block;
+}
+
+.numeral{
+    height: 18px;
+}
