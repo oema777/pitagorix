@@ -1,3 +1,5 @@
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 let seccion;
 let divCuadros;
 let div = [];
