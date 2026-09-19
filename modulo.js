@@ -1,5 +1,5 @@
 let seccion;
-let divCuadros;
+let menu;
 let div = [];
 let pnum ;
 let boton;
@@ -153,15 +153,15 @@ iniciar()
 
 
 function iniciar(){
-    divCuadros=document.getElementById("div-cuadros")
+    menu=document.getElementById("menu")
     div[0]=document.getElementById("div1")
     
     for(i=0; i<numeros.length/20; i++){
         div[0].innerHTML+=`
         
         <section id="s${(i+1)}">
-            <span id="pn">
-                <p class="numeral"></p>
+            <span class="pn">
+                <p class="numeral">#</p>
                 <p id="pn${1+20*i}"></p>
                 <p id="pn${2+20*i}"></p>
                 <p id="pn${3+20*i}"></p>
@@ -236,94 +236,7 @@ function iniciar(){
 
     console.log("comienza con " + numeros.length + " pares")
 
-    // if(cantidadSeccionesAlineadas==5){
-
-    //     cantidadDivs++
-    //     divCuadros.innerHTML+=`
-        
-    //     <div id="div${cantidadDivs}"></div>
-    //     `
-    //     div.push(document.getElementById("div" + cantidadDivs))
-        
-    //     cantidadSeccionesAlineadas=0
-    //     console.log("crear div #" + cantidadDivs)
-    // }
-    // cantidadSeccionesAlineadas++
-
-    // div[1].innerHTML+=`
-        
-    // <section id="s${(cantidadDePares/20)}" class="ultimo-predetermidado">
-    //     <span id="pn" class="span-ultimo">
-    //         <p class="numeral"></p>
-    //         <p id="pn${numeros.length+1}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+2}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+3}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+4}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+5}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+6}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+7}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+8}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+9}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+10}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+11}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+12}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+13}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+14}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+15}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+16}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+17}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+18}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+19}" class="ultimo"></p>
-    //         <p id="pn${numeros.length+20}" class="ultimo"></p>
-    //     </span>
-    //     <span id="pp"  class="span-ultimo">
-    //         <p class="numero-menor">Numero menor</p>
-    //         <p id="pp${numeros.length+1}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+2}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+3}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+4}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+5}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+6}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+7}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+8}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+9}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+10}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+11}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+12}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+13}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+14}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+15}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+16}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+17}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+18}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+19}" class="ultimo"></p>
-    //         <p id="pp${numeros.length+20}" class="ultimo"></p>
-    //     </span>
-    //     <span id="pg" class="span-ultimo">
-            
-    //         <p class="numero-mayor">Numero Mayor</p>
-    //         <p id="pg${numeros.length+1}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+2}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+3}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+4}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+5}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+6}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+7}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+8}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+9}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+10}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+11}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+12}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+13}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+14}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+15}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+16}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+17}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+18}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+19}" class="ultimo"></p>
-    //         <p id="pg${numeros.length+20}" class="ultimo"></p>
-    //     </span>
-    // </section>
+    
     
     // `;
     // aver=24
@@ -348,7 +261,7 @@ function iniciar(){
     
     
     window.addEventListener("load", ()=>{
-        divCuadros.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`
+        menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`
 
         seccion=document.getElementById( "s" + (cantidadDePares/20) )
    
@@ -413,15 +326,15 @@ function buscar(){
 
                     cantidadDivs++;
 
-                    divCuadros.removeChild(divCuadros.lastChild);
+                    menu.removeChild(menu.lastChild);
 
-                    divCuadros.innerHTML+=`
+                    menu.innerHTML+=`
                     
                     <div id="div${cantidadDivs}"></div>
                     `;
                     div.push(document.getElementById("div" + cantidadDivs));
                     
-                    divCuadros.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`;
+                    menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`;
                     boton=document.getElementById("btn");
 
                     boton.addEventListener("click", ()=>{
@@ -442,9 +355,9 @@ function buscar(){
 
                 div[cantidadDivs-1].innerHTML+=`
                 
-                <section id="s${(numeros.length/20+1)}" style="border-bottom:1px solid black;">
-                    <span id="pn">
-                        <p class="numeral"></p>
+                <section id="s${(numeros.length/20+1)}" style="border-bottom:1px solid #560bad;">
+                    <span class="pn">
+                        <p class="numeral">#</p>
                         <p id="pn${1+numeros.length}" style="display:none;"></p>
                         <p id="pn${2+numeros.length}" style="display:none;"></p>
                         <p id="pn${3+numeros.length}" style="display:none;"></p>

@@ -1,13 +1,18 @@
-
 html{
-    width:fit-content;
+    background-color: #caf0f8;
 }
-
+header{
+    background-color: #F4F7FA;
+    height: 102.98px;
+}
+h1{
+    color: #24887c;
+}
 span {
     display: inline-block;
     text-align: end;
     margin: 0px;
-    border-right: 1px solid black; 
+    border-right: 2px solid #560bad; 
 }
 .span-ultimo{
     display: flex;
@@ -20,7 +25,7 @@ span{
 p{
     text-align: end;
     margin: 0px;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid #560bad;
 }
 
 .ultimo{
@@ -30,7 +35,7 @@ p{
 main div{
     display: flex;
     gap: 40px;
-    height: 400px;
+    height: 422px;
 }
 
 #div-cuadros{
@@ -47,16 +52,21 @@ main div{
 
 section{
     display: flex;
-    border-left: 1px solid black;
-    border-top: 1px solid black;
+    border-left: 2px solid #560bad;
+    border-top: 2px solid #560bad;
     width: max-content;
 }
 .ultimo-predetermidado{
     display: none;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid #560bad;
 }
 button{
     display: block;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2fdac6;
+    color: #03045e;
 }
 
 .numeral{
