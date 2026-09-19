@@ -27,7 +27,7 @@ p{
     display: none;
 }
 
-div{
+main div{
     display: flex;
     gap: 40px;
     height: 400px;
