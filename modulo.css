@@ -1,12 +1,25 @@
 html{
     background-color: #caf0f8;
 }
+body{
+    width: max-content;
+    width: 100%;
+    margin:0px;
+    margin-bottom: 8px;
+}
 header{
     background-color: #F4F7FA;
-    height: 102.98px;
+    height: 82.38px;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;/* alinear boton */
 }
 h1{
     color: #24887c;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 span {
     display: inline-block;
@@ -34,14 +47,21 @@ p{
 
 main div{
     display: flex;
-    gap: 40px;
+    height: 452px;
+}
+
+#div1{
     height: 422px;
 }
 
 #div-cuadros{
     flex-direction: column;
-    gap:40px;
-    height: auto;
+    height: auto;/* para que no le afecte el height de arriba */
+    align-items: center;/* alinear divs contenedores de secciones */
+}
+
+div div {
+    gap: 30px;
 }
 
 #div-boton{
@@ -70,5 +90,9 @@ button{
 }
 
 .numeral{
-    height: 18px;
+    color: transparent;
+}
+
+.numero-menor, .numero-mayor{
+    width: max-content;
 }
