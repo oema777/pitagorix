@@ -244,6 +244,7 @@ function iniciar(){
         
         `
     }
+    cantidadSeccionesAlineadas=numerosUsados.length/20;
 
     console.log("comienza con " + numerosUsados.length + " pares")
 
@@ -559,19 +560,14 @@ function redimensionar(){
 
             if(window.innerWidth<=486){
                 maxSeccionesAlineadas=1;
-                cantidadSeccionesAlineadas=1
             }else if(window.innerWidth<=735){
                 maxSeccionesAlineadas=2;
-                cantidadSeccionesAlineadas=2;
             }else if(window.innerWidth<=989){
                 maxSeccionesAlineadas=3;
-                cantidadSeccionesAlineadas=3;
             }else if(window.innerWidth<=1243){
                 maxSeccionesAlineadas=4;
-                cantidadSeccionesAlineadas=4;
             }else{
                 maxSeccionesAlineadas=5;
-                cantidadSeccionesAlineadas=5;
             }
             if(!redimensionado){
                 for(let i=0; i<maxSeccionesAlineadas*20; i++){
