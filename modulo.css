@@ -94,5 +94,5 @@ button{
 }
 
 .numero-menor, .numero-mayor{
-    width: max-content;
+    text-align: center;
 }
