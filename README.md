@@ -43,7 +43,7 @@ To clone, audit, or run this technical infrastructure locally, execute the follo
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com
+git clone https://github.com/oema777
 
 # 2. Navigate to the project directory
 cd pitagorix
