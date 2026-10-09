@@ -5,20 +5,27 @@ let div = [];
 let pnum ;
 let boton;
 
-let pn=[]   //pn definitivo
-let pnT=[]  //pn temporal
+let pn=[];    //pn definitivo
+let pnT=[];   //pn temporal
 
-let pp= []  //pn definitivo
-let ppT= []  //pn temporal
+let pp= [];   //pn definitivo
+let ppT= [];  //pn temporal
 
-let pg=[]   //pn definitivo
-let pgT=[]   //pn temporal
+let pg=[];    //pn definitivo
+let pgT=[];   //pn temporal
 
 
 let inicio=false;
-let redimensionado=false
+let redimensionado=false;
+let huboBoton=false;
+let huboRedimensionado=false;
 let buscarSiguiente= false;
 let fin=false;
+let hayNuevos = 0;
+let huboNuevos = false;
+let extra = 0;
+let adicion=0;
+let sustraccion=0;
 let intervalo;
 let veces=0;
 
@@ -137,13 +144,17 @@ let numeros= [
 {p:18482358372, g:36964716744},
 {p:18523380134, g:37046760268}
 ];
+let numerosNuevos = [];
 
-
-let cantidadDePares=(numerosUsados.length+20);
+let cantidadDePares;
 let cantidadSeccionesAlineadas=numerosUsados.length/20;
+let cantidadPosteriorSeccionesAlineadas;
 let maxSeccionesAlineadas=numerosUsados.length/20;
 let cantidadDivs= 1;
-let totalSecciones
+let totalSecciones;
+
+let cantidadSeccionesNuevas=0;
+let cantidadSeccionesCreadas=0;
 
 let pequenno;
 let grande;
@@ -169,7 +180,7 @@ function iniciar(){
 
     totalSecciones=maxSeccionesAlineadas;
 
-    for(i=0; i<numerosUsados.length/20; i++){
+    for(let i=0; i<numerosUsados.length/20; i++){
         div[0].innerHTML+=`<section id="s${(i+1)}">
             <span class="pn">
                 <p class="numeral">#</p>
@@ -320,7 +331,7 @@ function buscar(){
         inicio=true;
         revisar();
         console.log("el anterior numero es: " + pequenno+ " y " + grande)
-        
+        huboBoton=true;
         
     }
     
@@ -365,117 +376,134 @@ function buscar(){
                 div[div.length-1]=document.getElementById("div" + cantidadDivs);
                 console.log(div[1]);
 
-
+                cantidadSeccionesNuevas++;
                 totalSecciones++;
 
-                div[cantidadDivs-1].innerHTML+=`<section id="s${(numerosUsados.length/20+1)}" style="border-bottom:2px solid #560bad;" >
+                div[cantidadDivs-1].innerHTML+=`<section id="s${((numerosUsados.length+numerosNuevos.length)/20+1)}" style="border-bottom:2px solid #560bad;" >
                     <span class="pn">
                         <p class="numeral">#</p>
-                        <p id="pn${1+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${2+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${3+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${4+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${5+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${6+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${7+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${8+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${9+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${10+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${11+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${12+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${13+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${14+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${15+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${16+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${17+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${18+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${19+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pn${20+numerosUsados.length}" style="display:none;"></p>
+                        <p id="pn${1+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${2+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${3+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${4+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${5+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${6+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${7+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${8+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${9+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${10+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${11+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${12+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${13+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${14+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${15+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${16+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${17+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${18+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${19+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pn${20+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
                     </span>
                     <span id="pp">
                         <p class="numero-menor">Cateto</p>
-                        <p id="pp${1+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${2+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${3+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${4+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${5+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${6+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${7+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${8+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${9+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${10+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${11+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${12+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${13+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${14+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${15+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${16+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${17+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${18+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${19+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pp${20+numerosUsados.length}" style="display:none;"></p>
+                        <p id="pp${1+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${2+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${3+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${4+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${5+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${6+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${7+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${8+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${9+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${10+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${11+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${12+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${13+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${14+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${15+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${16+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${17+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${18+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${19+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pp${20+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
                     </span>
                     <span id="pg">
                         <p class="numero-mayor">Hipotenusa</p>
-                        <p id="pg${1+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${2+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${3+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${4+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${5+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${6+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${7+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${8+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${9+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${10+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${11+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${12+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${13+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${14+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${15+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${16+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${17+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${18+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${19+numerosUsados.length}" style="display:none;"></p>
-                        <p id="pg${20+numerosUsados.length}" style="display:none;"></p>
+                        <p id="pg${1+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${2+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${3+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${4+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${5+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${6+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${7+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${8+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${9+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${10+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${11+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${12+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${13+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${14+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${15+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${16+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${17+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${18+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${19+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
+                        <p id="pg${20+numerosUsados.length+numerosNuevos.length}" style="display:none;"></p>
                     </span>
                 </section>`;
                 if(!fin){
-                    fin=true
+                    fin=true;
                 }else{
-                    cantidadDePares=cantidadDePares+20;seccion=undefined;
+                    cantidadDePares+=20;seccion=undefined;
                 }
 
                 seccion=document.getElementById( "s" + (cantidadDePares/20) );
                 console.log("crear seccion: s"+(cantidadDePares/20));
 
                 for(let i=1; i<=20; i++){
-                    pn.push(document.getElementById("pn" + (numerosUsados.length+i)))
-                    pp.push(document.getElementById("pp" + (numerosUsados.length+i)))
-                    pg.push(document.getElementById("pg" + (numerosUsados.length+i)))
+                    pn.push(document.getElementById("pn" + (numerosUsados.length+i+numerosNuevos.length)));
+                    pp.push(document.getElementById("pp" + (numerosUsados.length+i+numerosNuevos.length)));
+                    pg.push(document.getElementById("pg" + (numerosUsados.length+i+numerosNuevos.length)));
                 }
 
                 contador=0;
                 pnum=document.querySelectorAll(".numeral");
             
-                //redimensionar()
+                
+            }else{
+                let faltantePorContar=0;
+                if(!huboRedimensionado){
+                    faltantePorContar=1;
+                }
+                for(let i=0; i<20; i++){
+                    pn.push(  document.getElementById("pn" + ( numerosUsados.length+i+ ( Math.floor(numerosNuevos.length/20) )*20 +extra +faltantePorContar))  );
+                    pp.push(  document.getElementById("pp" + ( numerosUsados.length+i+ ( Math.floor(numerosNuevos.length/20) )*20 +extra +faltantePorContar))  );
+                    pg.push(  document.getElementById("pg" + ( numerosUsados.length+i+ ( Math.floor(numerosNuevos.length/20) )*20 +extra +faltantePorContar))  );
+                }
+                console.log(numerosUsados.length+0+ ( Math.floor(numerosNuevos.length/20) )*20 +adicion-1)//algo falla por aqui
             }      
           
-            if(numerosUsados.length+1 ==cantidadDePares-(20-1)){
+            if(numerosUsados.length+1+numerosNuevos.length ==cantidadDePares-(20-1)){
                 seccion.style.display="flex";
-            }else if(numerosUsados.length+1 ==cantidadDePares){
+            }else if(numerosUsados.length+1+numerosNuevos.length ==cantidadDePares){
                 seccion.style.borderBottom="0px";
-                console.log(pn[numerosUsados.length]);
+                console.log(pn[numerosUsados.length+numerosNuevos.length]);
             }
-            console.log((numerosUsados.length+1) +" "+ (cantidadDePares));
             
+
+            if(!hayNuevos){//(no había nuevos)
+                hayNuevos=1;
+                //extra=0;
+                huboNuevos=true;
+            }
             
-            pn[numerosUsados.length].innerHTML= numerosUsados.length+1;
-            pn[numerosUsados.length].style.display="inline";
-            pp[numerosUsados.length].innerHTML= pequenno;
-            pp[numerosUsados.length].style.display="inline";
-            pg[numerosUsados.length].innerHTML= grande;
-            pg[numerosUsados.length].style.display="inline";
-            numerosUsados.push({p:pequenno, g:grande});
+            console.log(numerosUsados.length+numerosNuevos.length +adicion)//o falla por aqui
+            pn[pn.length-20+contador].innerHTML= numerosUsados.length+numerosNuevos.length+1;
+            pn[pn.length-20+contador].style.display="inline";
+            pp[pn.length-20+contador].innerHTML= pequenno;
+            pp[pn.length-20+contador].style.display="inline";
+            pg[pn.length-20+contador].innerHTML= grande;
+            pg[pn.length-20+contador].style.display="inline";
+            numerosNuevos.push({p:pequenno, g:grande});
             
             contador++;
             console.log("los numerosUsados son: " + pequenno + " y " + grande);
@@ -556,292 +584,789 @@ function mensaje(peq=null,gra=null){
 
 
 function redimensionar(){
-    let maxSeccionesAlineadasPasadas        
+    let maxSeccionesAlineadasPasadas;      
+    let prueba;
 
-            if(!buscarSiguiente && redimensionado){
-                maxSeccionesAlineadasPasadas= maxSeccionesAlineadas;
-            }
+    if(redimensionado){
+        maxSeccionesAlineadasPasadas= maxSeccionesAlineadas;
+    }
 
-            if(window.innerWidth<=486){
-                maxSeccionesAlineadas=1;
-            }else if(window.innerWidth<=735){
-                maxSeccionesAlineadas=2;
-            }else if(window.innerWidth<=989){
-                maxSeccionesAlineadas=3;
-            }else if(window.innerWidth<=1243){
-                maxSeccionesAlineadas=4;
-            }else{
-                maxSeccionesAlineadas=5;
-            }
-            if(!redimensionado){
-                for(let i=0; i<maxSeccionesAlineadas*20; i++){
-                    numerosUsados.push(numeros[i])
-                }
-                pequenno = numerosUsados[numerosUsados.length-1].p;
-                grande = numerosUsados[numerosUsados.length-1].g;
-                redimensionado=true;
-            
-            }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas){
+    if(window.innerWidth<=486){
+        maxSeccionesAlineadas=1;
+    }else if(window.innerWidth<=735){
+        maxSeccionesAlineadas=2;
+    }else if(window.innerWidth<=989){
+        maxSeccionesAlineadas=3;
+    }else if(window.innerWidth<=1200){
+        maxSeccionesAlineadas=4;
+    }else{
+        maxSeccionesAlineadas=5;
+    }
 
-                
+    if(maxSeccionesAlineadas>totalSecciones && huboBoton){
+        //maxSeccionesAlineadas=maxSeccionesAlineadasPasadas;
+        if(totalSecciones<=5){
+            maxSeccionesAlineadas=totalSecciones;
+        }else{
+            maxSeccionesAlineadas=5;
+        }
+    }
 
-                if(!buscarSiguiente){
-                    
-                    
-                    
-                    let indiceUltimoDiv=(div.length-1);
-                    let cantidadSeccionesFaltantes = maxSeccionesAlineadas-maxSeccionesAlineadasPasadas;
-                    let indice=indiceUltimoDiv;
-                    for(i=0;i<cantidadSeccionesFaltantes; i++){
-                        if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
-                            indice++;
-                            divCuadros.innerHTML+=`<div id="div${(indice+1)}"></div>`;
-                            
-                        }
-                        alert("for");
-                        div[indice]=document.getElementById("div"+(indice+1));
-                            div[indice].innerHTML+=`<section id="s${(totalSecciones+i+1)}">
-                                <span class="pn">
-                                    <p class="numeral">#</p>
-                                    <p id="pn${1+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${2+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${3+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${4+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${5+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${6+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${7+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${8+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${9+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${10+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${11+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${12+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${13+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${14+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${15+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${16+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${17+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${18+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${19+20*(i+totalSecciones)}"></p>
-                                    <p id="pn${20+20*(i+totalSecciones)}"></p>
-                                </span>
-                                <span id="pp">
-                                    <p class="numero-menor">Cateto</p>
-                                    <p id="pp${1+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${2+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${3+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${4+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${5+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${6+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${7+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${8+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${9+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${10+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${11+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${12+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${13+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${14+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${15+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${16+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${17+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${18+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${19+20*(i+totalSecciones)}"></p>
-                                    <p id="pp${20+20*(i+totalSecciones)}"></p>
-                                </span>
-                                <span id="pg">
-                                    <p class="numero-mayor">Hipotenusa</p>
-                                    <p id="pg${1+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${2+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${3+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${4+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${5+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${6+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${7+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${8+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${9+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${10+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${11+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${12+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${13+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${14+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${15+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${16+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${17+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${18+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${19+20*(i+totalSecciones)}"></p>
-                                    <p id="pg${20+20*(i+totalSecciones)}"></p>
-                                </span>
-                            </section>`;
-                            
+    if(!redimensionado){
+        for(let i=0; i<maxSeccionesAlineadas*20; i++){
+            numerosUsados.push(numeros[i])
+        }
+        cantidadDePares=(numerosUsados.length+20);
 
-                        
-                        seccion=document.getElementById( "s" + (totalSecciones+1+i) )
-   
-
-
-                        for(let ii=i*20; ii<(i+1)*20; ii++){
-                            numerosUsados.push(numeros[totalSecciones*20+ii]);
-
-                            pn.push( document.getElementById("pn" + (totalSecciones*20+ii+1)) );
-                            pnT.push( document.getElementById("pn" + (totalSecciones*20+ii+1)) );
-                            pnT[pnT.length-1].innerHTML= (totalSecciones*20+ii+1);
-                            
-                            pp.push( document.getElementById("pp" + (totalSecciones*20+ii+1)) );
-                            ppT.push( document.getElementById("pp" + (totalSecciones*20+ii+1)) );
-                            ppT[ppT.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
-
-                            pg.push( document.getElementById("pg" + (totalSecciones*20+ii+1)) );
-                            pgT.push( document.getElementById("pg" + (totalSecciones*20+ii+1)) );
-                            pgT[pgT.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
-                        }
-
-                        
-                        
-                        
-
-                    }
-
-                    pequenno = numerosUsados[numerosUsados.length-1].p;
-                    grande = numerosUsados[numerosUsados.length-1].g;
-                    
-                    totalSecciones+=cantidadSeccionesFaltantes;
-                    cantidadSeccionesAlineadas += cantidadSeccionesFaltantes;
-                }
-            }else if(maxSeccionesAlineadas<maxSeccionesAlineadasPasadas){
-                
-                let indiceUltimoDiv=(div.length-1);
-                let cantidadSeccionesSobrantes = maxSeccionesAlineadasPasadas-maxSeccionesAlineadas;
-                let indice=indiceUltimoDiv;
-                divCuadros=document.getElementById("div-cuadros");
-                console.log("f" + cantidadSeccionesSobrantes)
-                
-                for(let i = 0; i<cantidadSeccionesSobrantes; i++){
-                    
-                    if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
-                        indice--;
-                    }
-                    
-                    div[indice]= document.getElementById( "div"+(indice+1) )
-                    console.log(div[indice])
-                    div[indice].removeChild(div[indice].lastChild);
-                    cantidadSeccionesAlineadas--;
-                }
-
-                
-                let contador = cantidadSeccionesAlineadas;
-
-                for(let i = 0; i<cantidadSeccionesSobrantes; i++){
-                    
-                    if(contador < maxSeccionesAlineadas){
-                        contador++
-                        console.log("vuelta")
-                    }else{
-                        contador=1
-                        cantidadSeccionesAlineadas=0
-                        indice++
-                        cantidadDivs++
-                        divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
-                    }
-                    
-                    div[indice]=document.getElementById("div"+(indice+1));
-                    div[indice].innerHTML+=`<section id="s${(totalSecciones-cantidadSeccionesSobrantes+i+1)}">
-                            <span class="pn">
-                                <p class="numeral">#</p>
-                                <p id="pn${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pn${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                            </span>
-                            <span id="pp">
-                                <p class="numero-menor">Cateto</p>
-                                <p id="pp${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pp${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                            </span>
-                            <span id="pg">
-                                <p class="numero-mayor">Hipotenusa</p>
-                                <p id="pg${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                                <p id="pg${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
-                            </span>
-                        </section>`;
-
-
-                    let ii=0;
-                    let iim=0;  //iimantenida
-
-                    for(ii=i*20*maxSeccionesAlineadas; ii<(i*20*maxSeccionesAlineadas)+20; ii++){
-                        // numerosUsados.push(numeros[totalSecciones*20+ii]);
-                        
-
-
-                        console.log(ii)
-                        console.log(maxSeccionesAlineadas*20+i*20+1);
-                        pnT.push( document.getElementById("pn" + (maxSeccionesAlineadas*20+i*20+1+iim)) );
-                        pnT[pnT.length-1].innerHTML= (maxSeccionesAlineadas*20+iim+20*(i)+1);
-                        
-                        ppT.push( document.getElementById("pp" + (maxSeccionesAlineadas*20+i*20+1+iim)) );
-                        ppT[ppT.length-1].innerHTML= numerosUsados[numerosUsados.length-cantidadSeccionesSobrantes*20+iim+20*i].p;
-
-                        pgT.push( document.getElementById("pg" + (maxSeccionesAlineadas*20+i*20+1+iim)) );
-                        pgT[pgT.length-1].innerHTML= numerosUsados[numerosUsados.length-cantidadSeccionesSobrantes*20+iim+20*i].g;
-                        
-                        //console.log(iimantetinda)
-                        iim++;
-                    }
-
-                    cantidadSeccionesAlineadas++
-                }
-            }
+        pequenno = numerosUsados[numerosUsados.length-1].p;
+        grande = numerosUsados[numerosUsados.length-1].g;
+        
+        cantidadPosteriorSeccionesAlineadas=numerosUsados.length/20;
+        redimensionado=true;
     
+    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && cantidadDivs==1 && !huboBoton){
+
+                
+
+        if(!buscarSiguiente){
             
+            
+            
+            let indiceUltimoDiv=(div.length-1);
+            let cantidadSeccionesFaltantes = maxSeccionesAlineadas-maxSeccionesAlineadasPasadas;
+            let indice=indiceUltimoDiv;
+            for(i=0;i<cantidadSeccionesFaltantes; i++){
+                if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
+                    indice++;
+                    divCuadros.innerHTML+=`<div id="div${(indice+1)}"></div>`;
+                    
+                }
+                div[indice]=document.getElementById("div"+(indice+1));
+                    div[indice].innerHTML+=`<section id="s${(totalSecciones+i+1)}">
+                        <span class="pn">
+                            <p class="numeral">#</p>
+                            <p id="pn${1+20*(i+totalSecciones)}"></p>
+                            <p id="pn${2+20*(i+totalSecciones)}"></p>
+                            <p id="pn${3+20*(i+totalSecciones)}"></p>
+                            <p id="pn${4+20*(i+totalSecciones)}"></p>
+                            <p id="pn${5+20*(i+totalSecciones)}"></p>
+                            <p id="pn${6+20*(i+totalSecciones)}"></p>
+                            <p id="pn${7+20*(i+totalSecciones)}"></p>
+                            <p id="pn${8+20*(i+totalSecciones)}"></p>
+                            <p id="pn${9+20*(i+totalSecciones)}"></p>
+                            <p id="pn${10+20*(i+totalSecciones)}"></p>
+                            <p id="pn${11+20*(i+totalSecciones)}"></p>
+                            <p id="pn${12+20*(i+totalSecciones)}"></p>
+                            <p id="pn${13+20*(i+totalSecciones)}"></p>
+                            <p id="pn${14+20*(i+totalSecciones)}"></p>
+                            <p id="pn${15+20*(i+totalSecciones)}"></p>
+                            <p id="pn${16+20*(i+totalSecciones)}"></p>
+                            <p id="pn${17+20*(i+totalSecciones)}"></p>
+                            <p id="pn${18+20*(i+totalSecciones)}"></p>
+                            <p id="pn${19+20*(i+totalSecciones)}"></p>
+                            <p id="pn${20+20*(i+totalSecciones)}"></p>
+                        </span>
+                        <span id="pp">
+                            <p class="numero-menor">Cateto</p>
+                            <p id="pp${1+20*(i+totalSecciones)}"></p>
+                            <p id="pp${2+20*(i+totalSecciones)}"></p>
+                            <p id="pp${3+20*(i+totalSecciones)}"></p>
+                            <p id="pp${4+20*(i+totalSecciones)}"></p>
+                            <p id="pp${5+20*(i+totalSecciones)}"></p>
+                            <p id="pp${6+20*(i+totalSecciones)}"></p>
+                            <p id="pp${7+20*(i+totalSecciones)}"></p>
+                            <p id="pp${8+20*(i+totalSecciones)}"></p>
+                            <p id="pp${9+20*(i+totalSecciones)}"></p>
+                            <p id="pp${10+20*(i+totalSecciones)}"></p>
+                            <p id="pp${11+20*(i+totalSecciones)}"></p>
+                            <p id="pp${12+20*(i+totalSecciones)}"></p>
+                            <p id="pp${13+20*(i+totalSecciones)}"></p>
+                            <p id="pp${14+20*(i+totalSecciones)}"></p>
+                            <p id="pp${15+20*(i+totalSecciones)}"></p>
+                            <p id="pp${16+20*(i+totalSecciones)}"></p>
+                            <p id="pp${17+20*(i+totalSecciones)}"></p>
+                            <p id="pp${18+20*(i+totalSecciones)}"></p>
+                            <p id="pp${19+20*(i+totalSecciones)}"></p>
+                            <p id="pp${20+20*(i+totalSecciones)}"></p>
+                        </span>
+                        <span id="pg">
+                            <p class="numero-mayor">Hipotenusa</p>
+                            <p id="pg${1+20*(i+totalSecciones)}"></p>
+                            <p id="pg${2+20*(i+totalSecciones)}"></p>
+                            <p id="pg${3+20*(i+totalSecciones)}"></p>
+                            <p id="pg${4+20*(i+totalSecciones)}"></p>
+                            <p id="pg${5+20*(i+totalSecciones)}"></p>
+                            <p id="pg${6+20*(i+totalSecciones)}"></p>
+                            <p id="pg${7+20*(i+totalSecciones)}"></p>
+                            <p id="pg${8+20*(i+totalSecciones)}"></p>
+                            <p id="pg${9+20*(i+totalSecciones)}"></p>
+                            <p id="pg${10+20*(i+totalSecciones)}"></p>
+                            <p id="pg${11+20*(i+totalSecciones)}"></p>
+                            <p id="pg${12+20*(i+totalSecciones)}"></p>
+                            <p id="pg${13+20*(i+totalSecciones)}"></p>
+                            <p id="pg${14+20*(i+totalSecciones)}"></p>
+                            <p id="pg${15+20*(i+totalSecciones)}"></p>
+                            <p id="pg${16+20*(i+totalSecciones)}"></p>
+                            <p id="pg${17+20*(i+totalSecciones)}"></p>
+                            <p id="pg${18+20*(i+totalSecciones)}"></p>
+                            <p id="pg${19+20*(i+totalSecciones)}"></p>
+                            <p id="pg${20+20*(i+totalSecciones)}"></p>
+                        </span>
+                    </section>`;
+                    
+
+                
+                seccion=document.getElementById( "s" + (totalSecciones+1+i) )
+
+
+
+                for(let ii=i*20; ii<(i+1)*20; ii++){
+                    numerosUsados.push(numeros[totalSecciones*20+ii]);
+
+                    pn.push( document.getElementById("pn" + (totalSecciones*20+ii+1)) );
+                    pnT.push( document.getElementById("pn" + (totalSecciones*20+ii+1)) );
+                    pnT[pnT.length-1].innerHTML= (totalSecciones*20+ii+1);
+                    
+                    pp.push( document.getElementById("pp" + (totalSecciones*20+ii+1)) );
+                    ppT.push( document.getElementById("pp" + (totalSecciones*20+ii+1)) );
+                    ppT[ppT.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
+
+                    pg.push( document.getElementById("pg" + (totalSecciones*20+ii+1)) );
+                    pgT.push( document.getElementById("pg" + (totalSecciones*20+ii+1)) );
+                    pgT[pgT.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
+                }
+
+                
+                
+                
+
+            }
+
+            pequenno = numerosUsados[numerosUsados.length-1].p;
+            grande = numerosUsados[numerosUsados.length-1].g;
+            
+            totalSecciones+=cantidadSeccionesFaltantes;
+            cantidadSeccionesAlineadas += cantidadSeccionesFaltantes;
+            
+        }
+
+        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
+        
+    }else if(maxSeccionesAlineadas<maxSeccionesAlineadasPasadas && cantidadSeccionesAlineadas > maxSeccionesAlineadas || cantidadPosteriorSeccionesAlineadas > maxSeccionesAlineadas){
+        
+        
+        let indiceUltimoDiv=(div.length-1);
+        let cantidadSeccionesSobrantes = maxSeccionesAlineadasPasadas-maxSeccionesAlineadas;
+        
+        if(cantidadSeccionesCreadas>0){
+            cantidadSeccionesNuevas=cantidadSeccionesCreadas;
+        }
+
+        if(cantidadDivs>1){
+            cantidadSeccionesSobrantes = totalSecciones - (maxSeccionesAlineadasPasadas - (maxSeccionesAlineadasPasadas- maxSeccionesAlineadas) );
+        }
+        
+        let indice=indiceUltimoDiv;
+        divCuadros=document.getElementById("div-cuadros");
+        for(let i = 0; i<cantidadSeccionesSobrantes; i++){
+            
+            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas && cantidadDivs==1){
+                indice--;
+                console.log("pasa");
+            }
+
+            console.log("indice: " + indice);
+            div[indice]= document.getElementById( "div"+(indice+1) );
+            console.log(div[indice].lastChild)
+            div[indice].removeChild(div[indice].lastChild);
+            cantidadSeccionesAlineadas--;
+
+            if(cantidadSeccionesAlineadas==0){
+                cantidadSeccionesAlineadas=cantidadPosteriorSeccionesAlineadas;
+                divCuadros.removeChild(divCuadros.lastChild);
+                cantidadDivs--;
+                indice--;
+                console.log(indice);
+            }
+        }
+
+        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas; 
+        totalSecciones -= cantidadSeccionesNuevas;
+        let contador = cantidadSeccionesAlineadas;
+        
+        for(let i = 0, iContada = 0; i<cantidadSeccionesSobrantes; i++){
+            
+            if(contador < maxSeccionesAlineadas){
+                contador++
+                console.log("vuelta")
+            }else{
+                contador=1
+                cantidadSeccionesAlineadas=0
+                indice++
+                cantidadDivs++
+                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
+            }
+            
+            div[indice]=document.getElementById("div"+(indice+1));
+            div[indice].innerHTML+=`<section id="s${(totalSecciones-cantidadSeccionesSobrantes+i+1)}">
+                    <span class="pn">
+                        <p class="numeral">#</p>
+                        <p id="pn${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                    <span id="pp">
+                        <p class="numero-menor">Cateto</p>
+                        <p id="pp${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                    <span id="pg">
+                        <p class="numero-mayor">Hipotenusa</p>
+                        <p id="pg${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                </section>`;
+
+            let impresion;
+
+            let par;
+
+            if(totalSecciones-cantidadSeccionesSobrantes<numerosUsados.length/20 -i ){
+                impresion=numerosUsados;
+                par=(totalSecciones-cantidadSeccionesSobrantes+i)*20;//formula de dudosa procedencia
+                console.log(par);
+            }else{
+                impresion=numerosNuevos;
+                //par=( numerosUsados.length/20-(totalSecciones-cantidadSeccionesSobrantes) )*20;//formula de dudosa procedencia
+                par=iContada*20;//segundo intento de formula
+                iContada++;
+            }
+            console.log(totalSecciones-cantidadSeccionesSobrantes);
+            console.log(numerosUsados.length/20  -i);
+            console.log(i);
+
+            if(i<=cantidadSeccionesSobrantes-cantidadSeccionesNuevas){
+            
+                for(ii=0; ii<20; ii++){
+                    // numerosUsados.push(numeros[totalSecciones*20+ii]);
+                    pnT.push( document.getElementById("pn" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                    pnT[pnT.length-1].innerHTML= (maxSeccionesAlineadas*20+ii+ 20*i+1);
+                    
+                    ppT.push( document.getElementById("pp" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                    ppT[ppT.length-1].innerHTML= impresion[par +ii ].p;
+
+                    pgT.push( document.getElementById("pg" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                    pgT[pgT.length-1].innerHTML= impresion[par +ii ].g;
+                    
+                    //console.log(iimantetinda)
+                }
+            }
+
+            cantidadSeccionesAlineadas++;
+            
+        }
+
+        console.log(totalSecciones);
+        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
+
+
+        console.log(cantidadSeccionesNuevas)
+        for(let i = 0; i<cantidadSeccionesNuevas; i++){
+            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
+                cantidadDivs++;
+                divCuadros.innerHTML+=`<div id="div${cantidadDivs}" style="margin-top: 30px; height: 422px;"></div>`;
+                cantidadSeccionesAlineadas=0;
+                div.push( document.getElementById("div"+(cantidadDivs)) )
+            }
+
+            div[cantidadDivs-1].innerHTML+=`<section id="s${(totalSecciones+1+i)}"   style="border-bottom:2px solid #560bad;" >
+                <span class="pn">
+                    <p class="numeral">#</p>
+                    <p id="pn${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+                <span id="pp">
+                    <p class="numero-menor">Cateto</p>
+                    <p id="pp${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+                <span id="pg">
+                    <p class="numero-mayor">Hipotenusa</p>
+                    <p id="pg${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+            </section>`;
+            console.log(totalSecciones*20+" + "+ i*20 + " + "+0 + " + "+1);
+            for(let ii=0; ii<20; ii++){
+                pn.push(document.getElementById("pn" + ( (totalSecciones+ i)*20 +ii+1)));
+                pp.push(document.getElementById("pp" + ( (totalSecciones+ i)*20 +ii+1)));
+                pg.push(document.getElementById("pg" + ( (totalSecciones+ i)*20 +ii+1)));
+            };
+        
+            cantidadSeccionesAlineadas++;
+        }
+
+        
+       
+
+        if(cantidadSeccionesSobrantes <= cantidadSeccionesNuevas){
+            sustraccion = (cantidadSeccionesNuevas-cantidadSeccionesSobrantes)*20;
+        }else{
+            sustraccion = 0;
+        }
+
+
+        
+        
+        let contraresta=numerosNuevos.length%20;
+
+        if(contraresta == 0 && numerosNuevos.length != 0){
+            contraresta= 20
+        }
+        
+
+        console.log(pn.length-20*cantidadSeccionesNuevas+ 0);
+        for(i=0; i<(cantidadSeccionesNuevas-1)*20+contraresta; i++){
+            pn[pn.length-20*cantidadSeccionesNuevas+ i].innerHTML= numerosUsados.length+(totalSecciones*20-numerosUsados.length)+1+i/* numerosUsados.length+cantidadSeccionesSobrantes*20+1+i */;
+            pn[pn.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+            pp[pp.length-20*cantidadSeccionesNuevas+ i].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].p;
+            pp[pp.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+            pg[pg.length-20*cantidadSeccionesNuevas+ i].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].g;
+            pg[pg.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+        }
+
+        totalSecciones += cantidadSeccionesNuevas;
+        cantidadSeccionesCreadas=cantidadSeccionesNuevas;
+        cantidadSeccionesNuevas = 0;
+        huboRedimensionado=true;
+        
+        if(huboNuevos){
+            hayNuevos=0;
+            extra=1;
+            adicion++;
+        }
+        
+        boton.blur();
+        boton.focus();
+        
+
+    
+    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas){/* cuando hay mas de un div */
+        
+        let indiceUltimoDiv=(div.length-1);
+        let cantidadSeccionesSobrantes = totalSecciones-maxSeccionesAlineadasPasadas;
+        let indice=indiceUltimoDiv;
+        divCuadros=document.getElementById("div-cuadros");
+        
+        if(cantidadSeccionesCreadas>0){
+            cantidadSeccionesNuevas=cantidadSeccionesCreadas;
+        }
+
+
+        for(let i = 0; i<cantidadSeccionesSobrantes; i++){
+            
+            if(cantidadSeccionesAlineadas==0){
+                indice--;
+                cantidadSeccionesAlineadas=maxSeccionesAlineadasPasadas;
+                divCuadros.removeChild(divCuadros.lastChild);
+                div.pop();
+                cantidadDivs--
+            }
+            
+            div[indice]= document.getElementById( "div"+(indice+1) );
+            div[indice].removeChild(div[indice].lastChild);
+            cantidadSeccionesAlineadas--; 
+        }
+
+        indice--;
+        divCuadros.removeChild(divCuadros.lastChild);
+        div.pop();
+        cantidadDivs--;
+        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas;
+        totalSecciones -= cantidadSeccionesNuevas;
+        
+
+        cantidadSeccionesAlineadas = maxSeccionesAlineadasPasadas;
+        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
+        
+
+        let contador = maxSeccionesAlineadasPasadas;
+
+        for(let i = 0, iContada = 0; i<cantidadSeccionesSobrantes; i++){
+            console.log("iteracion n" + (i+1));
+            if(contador < maxSeccionesAlineadas){
+                contador++;
+                console.log("vuelta");
+            }else{
+                contador=1;
+                cantidadSeccionesAlineadas=0;
+                indice++;
+                cantidadDivs++;
+                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
+            }
+            
+            div[indice]=document.getElementById("div"+(indice+1));
+            div[indice].innerHTML+=`<section id="s${(totalSecciones-cantidadSeccionesSobrantes+i+1)}">
+                    <span class="pn">
+                        <p class="numeral">#</p>
+                        <p id="pn${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pn${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                    <span id="pp">
+                        <p class="numero-menor">Cateto</p>
+                        <p id="pp${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pp${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                    <span id="pg">
+                        <p class="numero-mayor">Hipotenusa</p>
+                        <p id="pg${1+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${2+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${3+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${4+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${5+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${6+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${7+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${8+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${9+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${10+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${11+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${12+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${13+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${14+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${15+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${16+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${17+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${18+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${19+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                        <p id="pg${20+20*(i+totalSecciones-cantidadSeccionesSobrantes)}"></p>
+                    </span>
+                </section>`;
+
+
+            let ii=0;
+            let cantidadNumerosViejos;  //iimantenida
+
+            if(totalSecciones-cantidadSeccionesSobrantes==numerosUsados.length/20-cantidadSeccionesSobrantes){
+                cantidadNumerosViejos=numerosUsados.length-cantidadSeccionesSobrantes*20;
+                console.log("cantidadNumerosViejos = numerosUsados.length-cantidadSeccionesSobrantes*20: " + cantidadNumerosViejos)
+            }else{
+                cantidadNumerosViejos=totalSecciones*20-cantidadSeccionesSobrantes*20;
+                console.log("cantidadNumerosViejos = totalSecciones*20-cantidadSeccionesSobrantes*20: " + cantidadNumerosViejos)
+            }
+
+            let impresion;
+
+            let par;
+
+            if(totalSecciones-cantidadSeccionesSobrantes<numerosUsados.length/20 -i ){
+                impresion=numerosUsados;
+                par=cantidadNumerosViejos + 20*i;
+            }else{
+                impresion=numerosNuevos;
+                par=iContada*20;//formula de dudosa procedencia
+                iContada++
+            }
+
+            console.log(numerosUsados.length-cantidadSeccionesSobrantes*20 + 20*i +0);
+            for(ii=0; ii<20; ii++){
+                // numerosUsados.push(numeros[totalSecciones*20+ii]);
+                
+                pnT.push( document.getElementById("pn" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                pnT[pnT.length-1].innerHTML= ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii );
+                
+                ppT.push( document.getElementById("pp" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                ppT[ppT.length-1].innerHTML= impresion[par +ii].p;
+
+                pgT.push( document.getElementById("pg" + ( (totalSecciones-cantidadSeccionesSobrantes+i)*20 +1+ii ) ) );
+                pgT[pgT.length-1].innerHTML= impresion[par +ii].g;
+                
+            }
+            cantidadSeccionesAlineadas++;
+        }
+        
+        if(cantidadSeccionesAlineadas==maxSeccionesAlineadas && cantidadSeccionesNuevas){
+            indice++;
+            cantidadDivs++;
+            divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
+            cantidadSeccionesAlineadas=0;
+        }
+
+        for(let i = 0; i<cantidadSeccionesNuevas; i++){
+            div[cantidadDivs-1]=document.getElementById("div"+(cantidadDivs));
+            div[cantidadDivs-1].innerHTML+=`<section id="s${(totalSecciones+1+i)}"   style="border-bottom:2px solid #560bad;" >
+                <span class="pn">
+                    <p class="numeral">#</p>
+                    <p id="pn${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pn${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+                <span id="pp">
+                    <p class="numero-menor">Cateto</p>
+                    <p id="pp${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pp${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+                <span id="pg">
+                    <p class="numero-mayor">Hipotenusa</p>
+                    <p id="pg${1+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${2+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${3+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${4+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${5+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${6+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${7+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${8+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${9+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${10+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${11+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${12+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${13+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${14+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${15+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${16+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${17+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${18+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${19+(totalSecciones+i)*20}" style="display:none;"></p>
+                    <p id="pg${20+(totalSecciones+i)*20}" style="display:none;"></p>
+                </span>
+            </section>`;
+            
+            console.log("cantidadSeccionesSobrantes = " + cantidadSeccionesSobrantes + ", cantidadSeccionesNuevas = " + cantidadSeccionesNuevas)
+            console.log(totalSecciones*20+" + "+ i*20 + " + "+0 + " + "+1);
+            if(i<=cantidadSeccionesSobrantes-cantidadSeccionesNuevas){
+            
+                for(ii=0; ii<20; ii++){
+                    pn.push(document.getElementById("pn" + ( (totalSecciones+ i)*20 +ii+1)));
+                    pp.push(document.getElementById("pp" + ( (totalSecciones+ i)*20 +ii+1)));
+                    pg.push(document.getElementById("pg" + ( (totalSecciones+ i)*20 +ii+1)));
+                }
+            }
+            cantidadSeccionesAlineadas++;
+        }
+
+        
+        if(huboNuevos){
+            hayNuevos=0;
+            extra=1;
+            adicion+=20;
+        }
+
+
+        let contraresta=numerosNuevos.length%20;
+        if(contraresta == 0 && numerosNuevos.length != 0){
+            contraresta= 20;
+        }
+
+        const cantidadDeImpresion = contraresta + (cantidadSeccionesNuevas-1)*20;
+        console.log(pn.length-20*cantidadSeccionesNuevas+ 0);
+        for(i=0; i<cantidadDeImpresion; i++){
+            
+            if(cantidadDivs==1){//formula de dudosa procedencia//sujeta a cambios
+                pn[pn.length-20*cantidadSeccionesNuevas+ i]=document.getElementById("pn" + (totalSecciones*20 +i+1));//formula de dudosa procedencia
+                pp[pp.length-20*cantidadSeccionesNuevas+ i]=document.getElementById("pp" + (totalSecciones*20 +i+1));//sujeta a cambios
+                pg[pg.length-20*cantidadSeccionesNuevas+ i]=document.getElementById("pg" + (totalSecciones*20 +i+1));
+            }
+
+            parNuevo=numerosUsados.length+numerosNuevos.length-contraresta-(cantidadSeccionesNuevas-1)*20+1+i;
+
+            pn[pn.length-20*cantidadSeccionesNuevas+ i].innerHTML= parNuevo;
+            pn[pn.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+            pp[pp.length-20*cantidadSeccionesNuevas+ i].innerHTML= numerosNuevos[numerosNuevos.length-cantidadDeImpresion+i].p;
+            pp[pp.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+            pg[pg.length-20*cantidadSeccionesNuevas+ i].innerHTML= numerosNuevos[numerosNuevos.length-cantidadDeImpresion+i].g;
+            pg[pg.length-20*cantidadSeccionesNuevas+ i].style.display="inline";
+        }
+
+        totalSecciones += cantidadSeccionesNuevas;
+        cantidadSeccionesCreadas=cantidadSeccionesNuevas;
+        cantidadSeccionesNuevas = 0;
+        huboRedimensionado=true;
+        
+        
+    }else if(0!=0){
+        console.log(maxSeccionesAlineadas)
+        console.log(maxSeccionesAlineadasPasadas)
+        console.log(cantidadSeccionesAlineadas)
+        console.log(cantidadPosteriorSeccionesAlineadas)
+    }
+
+    //console.log(window.innerWidth)
 }
+
