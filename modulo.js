@@ -831,7 +831,7 @@ function redimensionar(){
                 cantidadSeccionesAlineadas=0
                 indice++
                 cantidadDivs++
-                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
+                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px;"></div>`;
             }
             
             div[indice]=document.getElementById("div"+(indice+1));
@@ -954,7 +954,7 @@ function redimensionar(){
         for(let i = 0; i<cantidadSeccionesNuevas; i++){
             if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
                 cantidadDivs++;
-                divCuadros.innerHTML+=`<div id="div${cantidadDivs}" style="margin-top: 30px; height: 422px;"></div>`;
+                divCuadros.innerHTML+=`<div id="div${cantidadDivs}" style="margin-top: 30px;"></div>`;
                 cantidadSeccionesAlineadas=0;
                 div.push( document.getElementById("div"+(cantidadDivs)) )
             }
@@ -1136,7 +1136,7 @@ function redimensionar(){
                 cantidadSeccionesAlineadas=0;
                 indice++;
                 cantidadDivs++;
-                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px; height: 422px;"></div>`;
+                divCuadros.innerHTML+=`<div id="div${(indice+1)}" style="margin-top: 30px;"></div>`;
             }
             
             div[indice]=document.getElementById("div"+(indice+1));

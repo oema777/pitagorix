@@ -47,11 +47,8 @@ p{
 
 main div{
     display: flex;
-    height: 422px;
-}
-
-#div1{
-    height: 422px;
+    height: auto;
+    min-height: 422px;
 }
 
 #div-cuadros{
@@ -66,6 +63,7 @@ div div {
 
 #div-boton{
     height: auto;
+    min-height: auto;/* para que no le afecte el height de arriba */
 }
 
 
