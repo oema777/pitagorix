@@ -28,6 +28,7 @@ let adicion=0;
 let sustraccion=0;
 let intervalo;
 let veces=0;
+let botonListo=true;
 
 let numerosUsados=[];
 let numeros= [
@@ -147,9 +148,9 @@ let numeros= [
 let numerosNuevos = [];
 
 let cantidadDePares;
-let cantidadSeccionesAlineadas=numerosUsados.length/20;
+let cantidadSeccionesAlineadas;
 let cantidadPosteriorSeccionesAlineadas;
-let maxSeccionesAlineadas=numerosUsados.length/20;
+let maxSeccionesAlineadas;
 let cantidadDivs= 1;
 let totalSecciones;
 
@@ -253,89 +254,84 @@ function iniciar(){
             </span>
         </section>`
     }
-    cantidadSeccionesAlineadas=numerosUsados.length/20;
+    cantidadSeccionesAlineadas=numerosUsados.length/20; 
+    
+    menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`
 
-    console.log("comienza con " + numerosUsados.length + " pares")
+    seccion=document.getElementById( "s" + (cantidadDePares/20) )
 
-    
-    
-    // `;
-    // aver=24
-    // pnum=document.querySelectorAll(".numeral")
+    for(let i=0; i<numerosUsados.length; i++){
+        pn.push(document.getElementById("pn" + (i+1)))
+        pnT.push(document.getElementById("pn" + (i+1)))
+    }
 
+    for(let i=0; i<numerosUsados.length; i++){
+        pp.push(document.getElementById("pp" + (i+1)))
+        ppT.push(document.getElementById("pp" + (i+1)))
+    }
 
-
+    for(let i=0; i<numerosUsados.length; i++){
+        pg.push(document.getElementById("pg" + (i+1)))
+        pgT.push(document.getElementById("pg" + (i+1)))
+    }
     
-
-    
-    
-    
-    
-       
-
-    
-        
-        
-    
-    
-    window.addEventListener("load", ()=>{
-        menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`
-
-        seccion=document.getElementById( "s" + (cantidadDePares/20) )
-   
-        for(let i=0; i<numerosUsados.length; i++){
-            pn.push(document.getElementById("pn" + (i+1)))
-            pnT.push(document.getElementById("pn" + (i+1)))
+    for(let i=0; i<numerosUsados.length; i++){
+        if(i+1<10){
+            pn[i].innerHTML= "0"+(i+1);
+        }else{
+            pn[i].innerHTML= i+1;
         }
+        pp[i].innerHTML= numerosUsados[i].p;
+        pg[i].innerHTML= numerosUsados[i].g;
+    }
 
-        for(let i=0; i<numerosUsados.length; i++){
-            pp.push(document.getElementById("pp" + (i+1)))
-            ppT.push(document.getElementById("pp" + (i+1)))
-        }
+    boton=document.getElementById("btn")
+    boton.addEventListener("click",accionBoton)
 
-        for(let i=0; i<numerosUsados.length; i++){
-            pg.push(document.getElementById("pg" + (i+1)))
-            pgT.push(document.getElementById("pg" + (i+1)))
-        }
-        
-        for(let i=0; i<numerosUsados.length; i++){
-            if(i+1<10){
-                pn[i].innerHTML= "0"+(i+1);
-            }else{
-                pn[i].innerHTML= i+1;
-            }
-            pp[i].innerHTML= numerosUsados[i].p;
-            pg[i].innerHTML= numerosUsados[i].g;
-        }
-
-        boton=document.getElementById("btn")
-        boton.addEventListener("click", ()=>{
-
-            buscarSiguiente=true;
-            aumentar();
-            buscar();
-        })
-
-        window.addEventListener("resize", ()=>{
-            redimensionar()
-        })
+    window.addEventListener("resize", ()=>{
+        redimensionar()
     })
 }
 
+function* crearContadorAsincrono() {
+  yield 1; // Primera llamada permitida
+  while (true) {
+    yield 0; // Todas las llamadas asíncronas siguientes devolverán 0
+  }
+}
+let despachador = crearContadorAsincrono();
 
+ function accionBoton(){
+    
+    if (despachador.next().value === 0) {
+        return; // Si el contador del motor ya pasó de 1, la función se bloquea
+    }
+    boton.style.backgroundColor="#2fdac62f";
+    boton.style.color="#03055e50";
+    
+    intervalo = setInterval(espera, 50);
+    
+ }
+
+function espera(){
+    clearInterval(intervalo);
+    
+    console.log("fondo: " + boton.style.backgroundColor + ", tipografia: " + boton.style.color);
+    buscarSiguiente=true;
+    aumentar();
+    inicio=false;
+    buscar();
+}
 
 function buscar(){
     
-    if(!inicio){
-        aumentar()
-        inicio=true;
-        revisar();
-        console.log("el anterior numero es: " + pequenno+ " y " + grande)
-        huboBoton=true;
-        
-    }
     
     
+    aumentar();
+    inicio=true;
+    revisar();
+    console.log("el anterior numero es: " + pequenno+ " y " + grande);
+    huboBoton=true;
     
     
     
@@ -351,21 +347,21 @@ function buscar(){
 
                     cantidadDivs++;
 
-                    menu.removeChild(menu.lastChild);
+                    //menu.removeChild(menu.lastChild);
 
                     divCuadros=document.getElementById("div-cuadros");
                     divCuadros.innerHTML+=`<div id="div${cantidadDivs}" style="margin-top:30px;"></div>`;
                     div.push(document.getElementById("div" + cantidadDivs));
                     
-                    menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`;
-                    boton=document.getElementById("btn");
+                    //menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`;
+                    //boton=document.getElementById("btn");
 
-                    boton.addEventListener("click", ()=>{
+                    //boton.addEventListener("click", ()=>{
 
-                        aumentar();
-                        
-                        buscar();
-                    });
+                    //    aumentar();
+                    //    inicio=false;
+                    //    intervalo=setInterval(buscar, 50);
+                    //});
 
                     cantidadSeccionesAlineadas=0;
                     console.log("crear div #" + cantidadDivs);
@@ -511,13 +507,24 @@ function buscar(){
             aumentar();
         }
     }
-    inicio=false;
-    boton.focus()
+    
+    
+    botonListo=true;
+    
+    intervalo = setInterval(espera2, 50);
+    
 
     
 }
 
-
+function espera2(){
+    clearInterval(intervalo);
+    boton.style.backgroundColor="#2fdac6";
+    boton.style.color="#03045e";
+    despachador = crearContadorAsincrono();
+    boton.blur();
+    boton.focus();
+}
 function aumentar(){
     grande+=2; 
     pequenno++;
@@ -562,7 +569,7 @@ function mensaje(peq=null,gra=null){
     }else{
         let aprobados=0;
         let erroneos= [];
-        console.log("Ver " + numerosUsados.length + " pares")
+        console.log("Ver " + (numerosUsados.length+numerosNuevos.length) + " pares")
         for(let i=0; i<numerosUsados.length; i++){
 
             pequenno=numerosUsados[i].p;
@@ -574,6 +581,17 @@ function mensaje(peq=null,gra=null){
                 erroneos.push({numero: (i+1) ,par: numerosUsados[i]});
             }
         }
+        for(let i=0; i<numerosNuevos.length; i++){
+
+            pequenno=numerosNuevos[i].p;
+            grande=numerosNuevos[i].g;
+            revisar()
+            if(modulo==0){
+                aprobados++;
+            }else{
+                erroneos.push({numero: (i+1) ,par: numerosNuevos[i]});
+            }
+        }
         console.log("Aprobados : " + aprobados)
         console.log("Reprobados:")
         console.log(erroneos)
@@ -582,6 +600,15 @@ function mensaje(peq=null,gra=null){
     }
 }
 
+function imprimir(){
+    let variable= "{p:"+numerosNuevos[0].p+", g:"+numerosNuevos[0].g+"}";
+    console.log(variable);
+    for(let i=1; i<numerosNuevos.length; i++){
+        variable +=`,
+{p:${numerosNuevos[i].p}, g:${numerosNuevos[i].g}}`;
+    }
+    console.log(variable)
+}
 
 function redimensionar(){
     let maxSeccionesAlineadasPasadas;      

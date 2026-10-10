@@ -9,7 +9,7 @@ body{
 }
 header{
     background-color: #F4F7FA;
-    height: 82.38px;
+    height: 61.78px;
 }
 main{
     display: flex;
@@ -95,4 +95,17 @@ button{
 
 .numero-menor, .numero-mayor{
     text-align: center;
+}
+
+@media (max-width:380px){
+    #logo{
+        width: 225px;
+    }
+    header{
+        height: 46.33px;
+    }
+    h1{
+        font-size: 20px;
+        text-align: center;
+    }
 }
