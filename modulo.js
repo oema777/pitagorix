@@ -422,13 +422,13 @@ function redimensionar(){
         maxSeccionesAlineadasPasadas= maxSeccionesAlineadas;
     }
 
-    if(window.innerWidth<=486){
+    if(window.innerWidth<=500){
         maxSeccionesAlineadas=1;
-    }else if(window.innerWidth<=735){
+    }else if(window.innerWidth<=762){
         maxSeccionesAlineadas=2;
-    }else if(window.innerWidth<=989){
+    }else if(window.innerWidth<=999){
         maxSeccionesAlineadas=3;
-    }else if(window.innerWidth<=1200){
+    }else if(window.innerWidth<=1262){
         maxSeccionesAlineadas=4;
     }else{
         maxSeccionesAlineadas=5;
