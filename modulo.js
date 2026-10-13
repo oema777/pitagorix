@@ -424,11 +424,11 @@ function redimensionar(){
 
     if(window.innerWidth<=500){
         maxSeccionesAlineadas=1;
-    }else if(window.innerWidth<=762){
+    }else if(window.innerWidth<=770){
         maxSeccionesAlineadas=2;
-    }else if(window.innerWidth<=999){
+    }else if(window.innerWidth<=1000){
         maxSeccionesAlineadas=3;
-    }else if(window.innerWidth<=1262){
+    }else if(window.innerWidth<=1270){
         maxSeccionesAlineadas=4;
     }else{
         maxSeccionesAlineadas=5;
