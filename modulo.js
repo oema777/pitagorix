@@ -402,9 +402,9 @@ function imprimir(){
         
         for(let i=1; i<contadorNumerosExtra-maximo; i++){
             if(i%10==0){
-                variable+=",\n\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}";
+                variable+=",\n\n{p:"+numerosNuevos[maximo+i].p+", g:"+numerosNuevos[maximo+i].g+"}";
             }else{
-                variable +=",\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}";
+                variable +=",\n{p:"+numerosNuevos[maximo+i].p+", g:"+numerosNuevos[maximo+i].g+"}";
             }
             console.log(i)
         }
