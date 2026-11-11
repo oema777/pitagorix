@@ -31,7 +31,7 @@ let contadorNumerosExtra=0;
 
 let cantidadDePares;
 let cantidadSeccionesAlineadas;
-let cantidadPosteriorSeccionesAlineadas;
+let cantidadSeccionesAlineadasSuperior;
 let maxSeccionesAlineadas;
 let cantidadDivs= 1;
 let totalSecciones;
@@ -43,6 +43,7 @@ let pequenno;
 let grande;
 
 let contador=20;
+let variableDeConsola;
 
 let operacion = grande * grande - pequenno * pequenno;
 
@@ -68,7 +69,7 @@ function iniciar(){
     }
     cantidadSeccionesAlineadas=numerosUsados.length/20; 
     
-    menu.innerHTML+=`<div id="div-boton"><button id="btn" for="aa">siguiente</button></div>`;
+    menu.innerHTML+=`<div id="div-boton"><button id="btn">siguiente</button></div>`;
 
     
     for(let i=0; i<numerosUsados.length; i++){
@@ -401,14 +402,14 @@ function imprimir(){
         
         for(let i=1; i<contadorNumerosExtra-maximo; i++){
             if(i%10==0){
-                variable+=`,\n\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}`;
+                variable+=",\n\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}";
             }else{
-                variable +=`,\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}`;
+                variable +=",\n{p:${numerosNuevos[maximo+i].p}, g:${numerosNuevos[maximo+i].g}}";
             }
             console.log(i)
         }
-        console.log("numeros en el html que no están en los datos precargados:")
-        console.log(variable)
+        console.log("numeros en el html que no están en los datos precargados:");
+        console.log(variable);
     }else{
         console.log("solo se imprimen los numeros que no están en los datos precargados, y para eso hay que sobrepasar la cantidad de pares precargados, que son: " + numeros.length);
     }
@@ -451,7 +452,7 @@ function redimensionar(){
         pequenno = numerosUsados[numerosUsados.length-1].p;
         grande = numerosUsados[numerosUsados.length-1].g;
 
-        cantidadPosteriorSeccionesAlineadas=numerosUsados.length/20;
+        cantidadSeccionesAlineadasSuperior=numerosUsados.length/20;
         redimensionado=true;
     
     }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && cantidadDivs==1 && !huboBoton){
@@ -487,9 +488,13 @@ function redimensionar(){
         totalSecciones+=cantidadSeccionesFaltantes;
         cantidadSeccionesAlineadas += cantidadSeccionesFaltantes;
         
-        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
-        
-    }else if(maxSeccionesAlineadas<maxSeccionesAlineadasPasadas && cantidadSeccionesAlineadas > maxSeccionesAlineadas || cantidadPosteriorSeccionesAlineadas > maxSeccionesAlineadas){
+        if(totalSecciones < maxSeccionesAlineadas){
+            cantidadSeccionesAlineadasSuperior=totalSecciones;
+        }else{
+            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
+        }
+
+    }else if(maxSeccionesAlineadas<maxSeccionesAlineadasPasadas && cantidadSeccionesAlineadasSuperior > maxSeccionesAlineadas){
         let indiceUltimoDiv=(div.length-1);
         let cantidadSeccionesSobrantes = maxSeccionesAlineadasPasadas-maxSeccionesAlineadas;
         
@@ -509,18 +514,25 @@ function redimensionar(){
             }
 
             div[indiceUltimoDiv]= document.getElementById( "div"+(indiceUltimoDiv+1) );
-            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastChild);
+            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastElementChild);
             cantidadSeccionesAlineadas--;
 
             if(cantidadSeccionesAlineadas==0){
-                cantidadSeccionesAlineadas=cantidadPosteriorSeccionesAlineadas;
-                divCuadros.removeChild(divCuadros.lastChild);
+                cantidadSeccionesAlineadas=cantidadSeccionesAlineadasSuperior;
+                divCuadros.removeChild(divCuadros.lastElementChild);
                 cantidadDivs--;
                 indiceUltimoDiv--;
             }
         }
 
-        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas; 
+        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas;
+        
+        if(totalSecciones < maxSeccionesAlineadas){
+            cantidadSeccionesAlineadasSuperior=totalSecciones;
+        }else{
+            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
+        }
+        
         totalSecciones -= cantidadSeccionesNuevas;
         let contador = cantidadSeccionesAlineadas;
         
@@ -574,12 +586,13 @@ function redimensionar(){
             
         }
 
-        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
-
 
         for(let i = 0; i<cantidadSeccionesNuevas; i++){
-            if(totalSecciones+cantidadSeccionesNuevas-maxSeccionesAlineadas<cantidadSeccionesNuevas && i==0){
-                i+=maxSeccionesAlineadasPasadas -maxSeccionesAlineadas;
+            
+            const cantidadSeccionesBorradas=totalSecciones+cantidadSeccionesNuevas-maxSeccionesAlineadas;
+
+            if(cantidadSeccionesBorradas < cantidadSeccionesNuevas && i==0){
+                i += cantidadSeccionesNuevas - cantidadSeccionesBorradas;
             }
             
             if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
@@ -640,7 +653,6 @@ function redimensionar(){
         
         boton.blur();
         boton.focus();
-        
 
     
     }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas){/* cuando hay mas de un div */
@@ -659,27 +671,33 @@ function redimensionar(){
             if(cantidadSeccionesAlineadas==0){
                 indiceUltimoDiv--;
                 cantidadSeccionesAlineadas=maxSeccionesAlineadasPasadas;
-                divCuadros.removeChild(divCuadros.lastChild);
+                divCuadros.removeChild(divCuadros.lastElementChild);
                 div.pop();
                 cantidadDivs--;
             }
             
             div[indiceUltimoDiv]= document.getElementById( "div"+(indiceUltimoDiv+1) );
-            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastChild);
+            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastElementChild);
             cantidadSeccionesAlineadas--; 
         }
         
         indiceUltimoDiv--;
-        divCuadros.removeChild(divCuadros.lastChild);
+        divCuadros.removeChild(divCuadros.lastElementChild);
         div.pop();
         cantidadDivs--;
         cantidadSeccionesSobrantes -= cantidadSeccionesNuevas;
-        totalSecciones -= cantidadSeccionesNuevas;
-        
 
         cantidadSeccionesAlineadas = maxSeccionesAlineadasPasadas;
-        cantidadPosteriorSeccionesAlineadas=maxSeccionesAlineadas;
+
+        if(totalSecciones < maxSeccionesAlineadas){
+            cantidadSeccionesAlineadasSuperior=totalSecciones;
+        }else{
+            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
+        }
         
+
+        totalSecciones -= cantidadSeccionesNuevas;
+
 
         let contador = maxSeccionesAlineadasPasadas;
         for(let i = 0, iContada = 0; i<cantidadSeccionesSobrantes; i++){
