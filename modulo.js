@@ -2,14 +2,14 @@ let seccion;
 let menu;
 let divCuadros;
 let div = [];
-let pnum ;
+let trnum ;
 let boton;
 
-let pn=[];
+let trn=[];
 
-let pp= [];
+let trp= [];
 
-let pg=[];
+let trg=[];
 
 
 let inicio=false;
@@ -43,13 +43,15 @@ let pequenno;
 let grande;
 
 let contador=20;
-let variableDeConsola;
 
 let operacion = grande * grande - pequenno * pequenno;
 
 let resultado = Math.sqrt(operacion);
 
 let modulo = operacion % resultado;
+
+let pNumeroMenor;
+let heightPrimerDiv;
 
 iniciar()
 
@@ -73,25 +75,25 @@ function iniciar(){
 
     
     for(let i=0; i<numerosUsados.length; i++){
-        pn.push(document.getElementById("pn" + (i+1)));
+        trn.push(document.getElementById("trn" + (i+1)));
     }
 
     for(let i=0; i<numerosUsados.length; i++){
-        pp.push(document.getElementById("pp" + (i+1)));
+        trp.push(document.getElementById("trp" + (i+1)));
     }
 
     for(let i=0; i<numerosUsados.length; i++){
-        pg.push(document.getElementById("pg" + (i+1)));
+        trg.push(document.getElementById("trg" + (i+1)));
     }
     
     for(let i=0; i<numerosUsados.length; i++){
         if(i+1<10){
-            pn[i].innerHTML= "0"+(i+1);
+            trn[i].innerHTML= "0"+(i+1);
         }else{
-            pn[i].innerHTML= i+1;
+            trn[i].innerHTML= i+1;
         }
-        pp[i].innerHTML= numerosUsados[i].p;
-        pg[i].innerHTML= numerosUsados[i].g;
+        trp[i].innerHTML= numerosUsados[i].p;
+        trg[i].innerHTML= numerosUsados[i].g;
     }
 
     boton=document.getElementById("btn");
@@ -179,7 +181,6 @@ function buscar(){
 
                 cantidadSeccionesAlineadas=0;
                 console.log("crear div #" + cantidadDivs);
-                
             }
             cantidadSeccionesAlineadas++;
 
@@ -190,10 +191,10 @@ function buscar(){
 
             const indiceSeccion= ((numerosUsados.length+contadorNumerosExtra)/20);
             const indiceDiv=cantidadDivs-1;
-            const valorDisplay="none";
+            const valorBorderTr="0px";
             const valorBorderSection="2px solid #560bad";
 
-            crearSeccion(indiceSeccion, indiceDiv,valorDisplay, valorBorderSection);
+            crearSeccion(indiceSeccion, indiceDiv,valorBorderTr, valorBorderSection);
 
             
             cantidadDePares+=20;
@@ -203,14 +204,14 @@ function buscar(){
             
             for(let i=0; i<20; i++){
                 const indice=numerosUsados.length+contadorNumerosExtra;
-                pn[indice+i]=document.getElementById("pn" + (indice+i+1));
-                pp[indice+i]=document.getElementById("pp" + (indice+i+1));
-                pg[indice+i]=document.getElementById("pg" + (indice+i+1));
+                trn[indice+i]=document.getElementById("trn" + (indice+i+1));
+                trp[indice+i]=document.getElementById("trp" + (indice+i+1));
+                trg[indice+i]=document.getElementById("trg" + (indice+i+1));
             }
             contador=0;
-            pnum=document.querySelectorAll(".numeral");
+            trnum=document.querySelectorAll(".numeral");
         
-            
+
         }else{
             let faltantePorContar=0;
             if(!huboRedimensionado){
@@ -218,9 +219,9 @@ function buscar(){
             }
             for(let i=0; i<20; i++){
                 const indice =numerosUsados.length+i+ ( Math.floor(contadorNumerosExtra/20) )*20 +extra +faltantePorContar;
-                pn[indice-1]=  document.getElementById("pn" + ( indice));
-                pp[indice-1]=  document.getElementById("pp" + ( indice));
-                pg[indice-1]=  document.getElementById("pg" + ( indice));
+                trn[indice-1]=  document.getElementById("trn" + ( indice));
+                trp[indice-1]=  document.getElementById("trp" + ( indice));
+                trg[indice-1]=  document.getElementById("trg" + ( indice));
             }
         }      
         
@@ -236,12 +237,12 @@ function buscar(){
         }
         
         if(cantidadDePares<=numeros.length){
-            pn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
-            pn[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-            pp[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].p;
-            pp[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-            pg[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].g;
-            pg[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+            trn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
+            trn[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
+            trp[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].p;
+            trp[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
+            trg[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].g;
+            trg[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
         }else{        
 
             aumentar();
@@ -253,12 +254,12 @@ function buscar(){
 
                 if(modulo==0){
                 
-                    pn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
-                    pn[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-                    pp[numerosUsados.length+contadorNumerosExtra].innerHTML= pequenno;
-                    pp[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-                    pg[numerosUsados.length+contadorNumerosExtra].innerHTML= grande;
-                    pg[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    trn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
+                    trn[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    trp[numerosUsados.length+contadorNumerosExtra].innerHTML= pequenno;
+                    trp[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    trg[numerosUsados.length+contadorNumerosExtra].innerHTML= grande;
+                    trg[numerosUsados.length+contadorNumerosExtra].style.display="inline";
                     numerosNuevos.push({p:pequenno, g:grande});
                     
                 }else{
@@ -367,17 +368,17 @@ function mensaje(peq=null,gra=null){
 
         for(let i=0; i<numerosUsados.length+contadorNumerosExtra; i++){
 
-            if(pp[i].innerHTML==numeros[i].p && pg[i].innerHTML==numeros[i].g){
+            if(trp[i].innerHTML==numeros[i].p && trg[i].innerHTML==numeros[i].g){
                 bienCopiados++;
             }else{
                 malCopiados.push({par: (i+1)});
             }
             
-            if(pp[i].innerHTML!=numeros[i].p){
+            if(trp[i].innerHTML!=numeros[i].p){
                 malCopiados[malCopiados.length-1].cateto = numeros[i].p;
             } 
             
-            if(pg[i].innerHTML!=numeros[i].g){
+            if(trg[i].innerHTML!=numeros[i].g){
                 malCopiados[malCopiados.length-1].hipotenusa = numeros[i].g;
             }
         }
@@ -470,14 +471,14 @@ function redimensionar(){
             for(let ii=i*20; ii<(i+1)*20; ii++){
                 numerosUsados.push(numeros[totalSecciones*20+ii]);
 
-                pn.push( document.getElementById("pn" + (totalSecciones*20+ii+1)) );
-                pn[pn.length-1].innerHTML= (totalSecciones*20+ii+1);
+                trn.push( document.getElementById("trn" + (totalSecciones*20+ii+1)) );
+                trn[trn.length-1].innerHTML= (totalSecciones*20+ii+1);
                 
-                pp.push( document.getElementById("pp" + (totalSecciones*20+ii+1)) );
-                pp[pp.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
+                trp.push( document.getElementById("trp" + (totalSecciones*20+ii+1)) );
+                trp[trp.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
 
-                pg.push( document.getElementById("pg" + (totalSecciones*20+ii+1)) );
-                pg[pg.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
+                trg.push( document.getElementById("trg" + (totalSecciones*20+ii+1)) );
+                trg[trg.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
             }   
             cantidadDePares+=20;
         }
@@ -514,6 +515,7 @@ function redimensionar(){
             }
 
             div[indiceUltimoDiv]= document.getElementById( "div"+(indiceUltimoDiv+1) );
+            console.log(div[indiceUltimoDiv])
             div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastElementChild);
             cantidadSeccionesAlineadas--;
 
@@ -571,14 +573,14 @@ function redimensionar(){
                 for(ii=0; ii<20; ii++){
                     const indice=(totalSecciones-cantidadSeccionesSobrantes+i)*20 +ii;
                     
-                    pn[indice]= document.getElementById( "pn" + (indice+1) ) ;
-                    pn[indice].innerHTML= (maxSeccionesAlineadas*20+ii+ 20*i+1);
+                    trn[indice]= document.getElementById( "trn" + (indice+1) ) ;
+                    trn[indice].innerHTML= (maxSeccionesAlineadas*20+ii+ 20*i+1);
                     
-                    pp[indice]= document.getElementById( "pp" + ( indice+1) ) ;
-                    pp[indice].innerHTML= impresion[par +ii].p;
+                    trp[indice]= document.getElementById( "trp" + ( indice+1) ) ;
+                    trp[indice].innerHTML= impresion[par +ii].p;
 
-                    pg[indice]= document.getElementById( "pg" + (indice+1) ) ;
-                    pg[indice].innerHTML= impresion[par +ii].g;
+                    trg[indice]= document.getElementById( "trg" + (indice+1) ) ;
+                    trg[indice].innerHTML= impresion[par +ii].g;
                 }
             }
 
@@ -603,10 +605,10 @@ function redimensionar(){
 
             const indexSeccion=totalSecciones+i;
             const indiceDiv=cantidadDivs-1;
-            const valorDisplay="none";
+            const valorBorderTr="0px";
             const valorBorderSection="2px solid #560bad";
             
-            crearSeccion(indexSeccion, indiceDiv, valorDisplay, valorBorderSection);
+            crearSeccion(indexSeccion, indiceDiv, valorBorderTr, valorBorderSection);
         
             cantidadSeccionesAlineadas++;
         }
@@ -621,16 +623,16 @@ function redimensionar(){
         for(i=0; i<(cantidadSeccionesNuevas-1)*20+contraresta; i++){
             const indice=totalSecciones*20+i;
             
-            pn[indice]=document.getElementById("pn" + (indice+1));
-            pp[indice]=document.getElementById("pp" + (indice+1));
-            pg[indice]=document.getElementById("pg" + (indice+1));
+            trn[indice]=document.getElementById("trn" + (indice+1));
+            trp[indice]=document.getElementById("trp" + (indice+1));
+            trg[indice]=document.getElementById("trg" + (indice+1));
 
-            pn[indice].innerHTML= indice+1;
-            pn[indice].style.display="inline";
-            pp[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].p;
-            pp[indice].style.display="inline";
-            pg[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].g;
-            pg[indice].style.display="inline";
+            trn[indice].innerHTML= indice+1;
+            trn[indice].style.borderBottom="2px solid #560bad";
+            trp[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].p;
+            trp[indice].style.borderBottom="2px solid #560bad";
+            trg[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].g;
+            trg[indice].style.borderBottom="2px solid #560bad";
 
             if((i+1)%20==0){
                 seccion=document.getElementById( "s" + (totalSecciones+(i+1)/20) );
@@ -742,14 +744,14 @@ function redimensionar(){
             for(let ii=0; ii<20; ii++){
                 const indice= (totalSecciones-cantidadSeccionesSobrantes+i)*20 +ii;
 
-                pn[indice]= document.getElementById("pn" + (indice+1) );
-                pn[indice].innerHTML= indice+1;
+                trn[indice]= document.getElementById("trn" + (indice+1) );
+                trn[indice].innerHTML= indice+1;
                 
-                pp[indice]= document.getElementById("pp" + (indice+1) );
-                pp[indice].innerHTML= impresion[par +ii].p;
+                trp[indice]= document.getElementById("trp" + (indice+1) );
+                trp[indice].innerHTML= impresion[par +ii].p;
 
-                pg[indice]= document.getElementById("pg" + (indice+1) );
-                pg[indice].innerHTML= impresion[par +ii].g;
+                trg[indice]= document.getElementById("trg" + (indice+1) );
+                trg[indice].innerHTML= impresion[par +ii].g;
                 
             }
             cantidadSeccionesAlineadas++;
@@ -769,10 +771,10 @@ function redimensionar(){
             
             const indexSeccion=totalSecciones+i;
             const indiceDiv=cantidadDivs-1;
-            const valorDisplay="none";
+            const valorBorderTr="0px";
             const valorBorderSection="2px solid #560bad";
             
-            crearSeccion(indexSeccion, indiceDiv, valorDisplay, valorBorderSection);
+            crearSeccion(indexSeccion, indiceDiv, valorBorderTr, valorBorderSection);
             
             cantidadSeccionesAlineadas++;
         }
@@ -794,18 +796,18 @@ function redimensionar(){
         for(i=0; i<cantidadDeImpresion; i++){
             const indice = totalSecciones*20 +i;
             
-            pn[indice]=document.getElementById("pn" + (indice+1));
-            pp[indice]=document.getElementById("pp" + (indice+1));
-            pg[indice]=document.getElementById("pg" + (indice+1));
+            trn[indice]=document.getElementById("trn" + (indice+1));
+            trp[indice]=document.getElementById("trp" + (indice+1));
+            trg[indice]=document.getElementById("trg" + (indice+1));
             
             parNuevo=numerosUsados.length+contadorNumerosExtra-contraresta-(cantidadSeccionesNuevas-1)*20+1+i;
 
-            pn[indice].innerHTML= parNuevo;
-            pn[indice].style.display="inline";
-            pp[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].p;
-            pp[indice].style.display="inline";
-            pg[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].g;
-            pg[indice].style.display="inline";
+            trn[indice].innerHTML= parNuevo;
+            trn[indice].style.borderBottom="2px solid #560bad";
+            trp[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].p;
+            trp[indice].style.borderBottom="2px solid #560bad";
+            trg[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].g;
+            trg[indice].style.borderBottom="2px solid #560bad";
             if((i+1)%20==0){
                 seccion=document.getElementById( "s" + (totalSecciones+(i+1)/20) );
                 seccion.style.borderBottom="0px";
@@ -825,56 +827,54 @@ function redimensionar(){
 function crearDiv(numeroDiv){
     div[numeroDiv-1]=document.createElement("div");
     div[numeroDiv-1].id="div"+numeroDiv;
+    div[numeroDiv-1].className="caja";
     divCuadros.appendChild(div[numeroDiv-1]);
     div[numeroDiv-1].style.marginTop="30px";
 }
-function crearSeccion(index, indice, display = "", borderSection=""){
-    //desde aqui
-    seccion=document.createElement("section");
+function crearSeccion(index, indice, borderTr = "2px solid #560bad"){
+    
+    seccion=document.createElement("div");
     seccion.id="s"+(index+1);
-    let pnT=[];let ppT=[];let pgT=[];
-    
-    const spanPN=document.createElement("span");
-    const spanPP=document.createElement("span");
-    const spanPG=document.createElement("span");
-    spanPN.className="pn";
-    spanPP.id="pp";
-    spanPG.id="pg";
-    
+    seccion.className="tablita";
     div[indice].appendChild(seccion);
-    seccion.appendChild(spanPN);
-    seccion.appendChild(spanPP);
-    seccion.appendChild(spanPG);
 
-    const pNumeral=document.createElement("p");
-    const pMenor=document.createElement("p");
-    const pMayor=document.createElement("p");
-    pNumeral.className="numeral";
-    pMenor.className="numero-menor";
-    pMayor.className="numero-mayor";
-    spanPN.appendChild(pNumeral);
-    spanPP.appendChild(pMenor);
-    spanPG.appendChild(pMayor);
-    pMenor.innerHTML="Cateto";
-    pMayor.innerHTML="Hipotenusa";
+    const numeral = document.createElement("div");
+    numeral.className="celda th izquierda";
+    seccion.appendChild(numeral);
 
-    for(let ii=0;ii<20;ii++){
-        pnT.push(document.createElement("p"));
-        ppT.push(document.createElement("p"));
-        pgT.push(document.createElement("p"));
-        pnT[pnT.length-1].id="pn"+(1+ii+20*index);
-        ppT[ppT.length-1].id="pp"+(1+ii+20*index);
-        pgT[pgT.length-1].id="pg"+(1+ii+20*index);
+    const tituloCateto = document.createElement("div");
+    tituloCateto.className="celda th";
+    tituloCateto.innerHTML="Cateto";
+    seccion.appendChild(tituloCateto);
+
+    const tituloHipotenusa = document.createElement("div");
+    tituloHipotenusa.className="celda th";
+    tituloHipotenusa.innerHTML="Hipotenusa";
+    seccion.appendChild(tituloHipotenusa);
+
+    for(let i=0;i<20;i++){
         
-        spanPN.appendChild(pnT[pnT.length-1]);
-        spanPP.appendChild(ppT[ppT.length-1]);
-        spanPG.appendChild(pgT[pgT.length-1]);
+        const numero=document.createElement("div");
+        numero.id="trn"+(1+i+20*index);
+        numero.className="celda izquierda"
+        seccion.appendChild(numero);
+        
+        const cateto=document.createElement("div");
+        cateto.id="trp"+(1+i+20*index);
+        cateto.className="celda numero-menor";
+        seccion.appendChild(cateto);
 
-        pnT[pnT.length-1].style.display=display;
-        ppT[ppT.length-1].style.display=display;
-        pgT[pgT.length-1].style.display=display;
+        const hipotenusa=document.createElement("div");
+        hipotenusa.id="trg"+(1+i+20*index);
+        hipotenusa.className="celda numero-mayor";
+        seccion.appendChild(hipotenusa);
+
+        if(i<19){
+            numero.style.borderBottom=borderTr;
+            cateto.style.borderBottom=borderTr;
+            hipotenusa.style.borderBottom=borderTr;
+        }
+        
     }
-    
-    seccion.style.borderBottom=borderSection;
-    //hasta aqui
 }
+

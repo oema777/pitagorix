@@ -2,7 +2,6 @@ html{
     background-color: #caf0f8;
 }
 body{
-    width: max-content;
     width: 100%;
     margin:0px;
     margin-bottom: 8px;
@@ -22,63 +21,50 @@ h1{
     margin-bottom: 10px;
     text-align: center;
 }
-span {
-    display: inline-block;
-    text-align: end;
-    margin: 0px;
-    border-right: 2px solid #560bad; 
-}
-.span-ultimo{
-    display: flex;
-    flex-direction: column;
-}
-span{
-    display: flex;
-    flex-direction: column;
-}
-p{
+
+.celda{
     text-align: end;
     margin: 0px;
     border-bottom: 2px solid #560bad;
+    border-right: 2px solid #560bad;
+    padding: 0px 1px;
+}
+tr{
+     height: 4.7619%; /* 100% entre 21 secciones */
+}
+.th{
+    font-weight: normal;
+    text-align: center;
+}
+.izquierda{
+    border-left: 2px solid #560bad;
+    padding-left: 1.5px;
 }
 
-.ultimo{
-    display: none;
-}
-
-main div{
-    display: flex;
-    height: auto;
-    min-height: 422px;
-}
 
 #div-cuadros{
+    display: flex;
     flex-direction: column;
-    height: auto;/* para que no le afecte el height de arriba */
     align-items: center;/* alinear divs contenedores de secciones */
 }
 
-div div {
+.caja{
     gap: 30px;
-}
-
-#div-boton{
-    height: auto;
-    min-height: auto;/* para que no le afecte el height de arriba */
-}
-
-
-
-section{
     display: flex;
-    border-left: 2px solid #560bad;
+}
+
+
+.tablita{
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(21, 1fr);
+
+    width: min-content;
+    
     border-top: 2px solid #560bad;
-    width: max-content;
 }
-.ultimo-predetermidado{
-    display: none;
-    border-bottom: 2px solid #560bad;
-}
+
 button{
     display: block;
     margin-top: 10px;
@@ -88,25 +74,17 @@ button{
     color: #03045e;
 }
 
-.numeral{
-    color: transparent;
-    height:100%;
-    max-height: 18px;
-}
 
-.numero-menor, .numero-mayor{
-    text-align: center;
-}
 
-@media (max-width:380px){
+@media (max-width:425px){
     #logo{
-        width: 225px;
+        width: 200px;
     }
     header{
         height: 46.33px;
     }
     h1{
-        font-size: 20px;
+        font-size: 22px;
         text-align: center;
     }
 }
