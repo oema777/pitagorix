@@ -95,6 +95,10 @@ function iniciar(){
     boton=document.getElementById("btn");
     boton.addEventListener("click",accionBoton);
 
+    if(maxSeccionesAlineadas==5){
+        completado=true;
+    }
+
     window.addEventListener("resize", ()=>{
         redimensionar();
     })
@@ -404,12 +408,12 @@ function redimensionar(){
 
         redimensionado=true;
     
-    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && completado && !huboBoton){
+    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && !completado && !huboBoton){
         
         const cantidadSeccionesFaltantes = maxSeccionesAlineadas-maxSeccionesAlineadasPasadas;
         for(i=0;i<cantidadSeccionesFaltantes; i++){
             
-            
+            alert("que")
             const indexSeccion=totalSecciones+i;
             crearSeccion(indexSeccion);
                   
