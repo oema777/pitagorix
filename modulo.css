@@ -43,14 +43,10 @@ tr{
 
 
 #div-cuadros{
-    display: flex;
-    flex-direction: column;
-    align-items: center;/* alinear divs contenedores de secciones */
-}
-
-.caja{
     gap: 30px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 
@@ -88,3 +84,5 @@ button{
         text-align: center;
     }
 }
+
+

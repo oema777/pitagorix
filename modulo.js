@@ -1,18 +1,18 @@
 let seccion;
 let menu;
 let divCuadros;
-let div = [];
-let trnum ;
+let divnum;
 let boton;
 
-let trn=[];
+let divn=[];
 
-let trp= [];
+let divp= [];
 
-let trg=[];
+let divg=[];
 
 
 let inicio=false;
+let completado=false;
 let redimensionado=false;
 let huboBoton=false;
 let huboRedimensionado=false;
@@ -22,7 +22,8 @@ let huboNuevos = false;
 let extra = 0;
 let adicion=0;
 let intervalo;
-let botonListo=true;
+
+let brechaDeInterlineado=0;
 
 let numerosUsados=[];
 let numerosNuevos = [];
@@ -30,13 +31,10 @@ const cantidadDeParesExtra=numeros.length-100;
 let contadorNumerosExtra=0;
 
 let cantidadDePares;
-let cantidadSeccionesAlineadas;
-let cantidadSeccionesAlineadasSuperior;
 let maxSeccionesAlineadas;
 let cantidadDivs= 1;
 let totalSecciones;
 
-let cantidadSeccionesNuevas=0;
 let cantidadSeccionesCreadas=0;
 
 let pequenno;
@@ -53,47 +51,45 @@ let modulo = operacion % resultado;
 let pNumeroMenor;
 let heightPrimerDiv;
 
-iniciar()
+iniciar();
 
 
 
 function iniciar(){
     menu=document.getElementById("menu");
     divCuadros=document.getElementById("div-cuadros");
-    div[0]=document.getElementById("div1");
     
     redimensionar();
 
     totalSecciones=maxSeccionesAlineadas;
 
     for(let i=0; i<numerosUsados.length/20; i++){
-        crearSeccion(i,0);
+        crearSeccion(i);
     }
-    cantidadSeccionesAlineadas=numerosUsados.length/20; 
     
     menu.innerHTML+=`<div id="div-boton"><button id="btn">siguiente</button></div>`;
 
     
     for(let i=0; i<numerosUsados.length; i++){
-        trn.push(document.getElementById("trn" + (i+1)));
+        divn.push(document.getElementById("divn" + (i+1)));
     }
 
     for(let i=0; i<numerosUsados.length; i++){
-        trp.push(document.getElementById("trp" + (i+1)));
+        divp.push(document.getElementById("divp" + (i+1)));
     }
 
     for(let i=0; i<numerosUsados.length; i++){
-        trg.push(document.getElementById("trg" + (i+1)));
+        divg.push(document.getElementById("divg" + (i+1)));
     }
     
     for(let i=0; i<numerosUsados.length; i++){
         if(i+1<10){
-            trn[i].innerHTML= "0"+(i+1);
+            divn[i].innerHTML= "0"+(i+1);
         }else{
-            trn[i].innerHTML= i+1;
+            divn[i].innerHTML= i+1;
         }
-        trp[i].innerHTML= numerosUsados[i].p;
-        trg[i].innerHTML= numerosUsados[i].g;
+        divp[i].innerHTML= numerosUsados[i].p;
+        divg[i].innerHTML= numerosUsados[i].g;
     }
 
     boton=document.getElementById("btn");
@@ -112,7 +108,7 @@ function* crearContadorAsincrono() {
 }
 let despachador = crearContadorAsincrono();
 
- function accionBoton(){
+function accionBoton(){
     
     if (despachador.next().value === 0) {
         return; // Si el contador del motor ya pasó de 1, la función se bloquea
@@ -122,7 +118,7 @@ let despachador = crearContadorAsincrono();
     
     intervalo = setInterval(espera, 50);
     
- }
+}
 
 function espera(){
     clearInterval(intervalo);
@@ -158,43 +154,15 @@ function buscar(){
     
     huboBoton=true;
     
-    
-    
-
-
-    
-    
-    
-
-
-
         if(contador==20){
                 
-            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
-
-                cantidadDivs++;
-
-                
-                divCuadros=document.getElementById("div-cuadros");
-                crearDiv(cantidadDivs);
-                
-
-                cantidadSeccionesAlineadas=0;
-                console.log("crear div #" + cantidadDivs);
-            }
-            cantidadSeccionesAlineadas++;
-
-            div[div.length-1]=document.getElementById("div" + cantidadDivs);
             
-            cantidadSeccionesNuevas++;
             totalSecciones++;
 
             const indiceSeccion= ((numerosUsados.length+contadorNumerosExtra)/20);
-            const indiceDiv=cantidadDivs-1;
             const valorBorderTr="0px";
-            const valorBorderSection="2px solid #560bad";
 
-            crearSeccion(indiceSeccion, indiceDiv,valorBorderTr, valorBorderSection);
+            crearSeccion(indiceSeccion,valorBorderTr);
 
             
             cantidadDePares+=20;
@@ -204,12 +172,12 @@ function buscar(){
             
             for(let i=0; i<20; i++){
                 const indice=numerosUsados.length+contadorNumerosExtra;
-                trn[indice+i]=document.getElementById("trn" + (indice+i+1));
-                trp[indice+i]=document.getElementById("trp" + (indice+i+1));
-                trg[indice+i]=document.getElementById("trg" + (indice+i+1));
+                divn[indice+i]=document.getElementById("divn" + (indice+i+1));
+                divp[indice+i]=document.getElementById("divp" + (indice+i+1));
+                divg[indice+i]=document.getElementById("divg" + (indice+i+1));
             }
             contador=0;
-            trnum=document.querySelectorAll(".numeral");
+            divnum=document.querySelectorAll(".numeral");
         
 
         }else{
@@ -219,9 +187,9 @@ function buscar(){
             }
             for(let i=0; i<20; i++){
                 const indice =numerosUsados.length+i+ ( Math.floor(contadorNumerosExtra/20) )*20 +extra +faltantePorContar;
-                trn[indice-1]=  document.getElementById("trn" + ( indice));
-                trp[indice-1]=  document.getElementById("trp" + ( indice));
-                trg[indice-1]=  document.getElementById("trg" + ( indice));
+                divn[indice-1]=  document.getElementById("divn" + ( indice));
+                divp[indice-1]=  document.getElementById("divp" + ( indice));
+                divg[indice-1]=  document.getElementById("divg" + ( indice));
             }
         }      
         
@@ -237,12 +205,12 @@ function buscar(){
         }
         
         if(cantidadDePares<=numeros.length){
-            trn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
-            trn[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
-            trp[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].p;
-            trp[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
-            trg[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].g;
-            trg[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
+            divn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
+            divn[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
+            divp[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].p;
+            divp[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
+            divg[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosNuevos[contadorNumerosExtra].g;
+            divg[numerosUsados.length+contadorNumerosExtra].style.borderBottom="2px solid #560bad";
         }else{        
 
             aumentar();
@@ -254,12 +222,12 @@ function buscar(){
 
                 if(modulo==0){
                 
-                    trn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
-                    trn[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-                    trp[numerosUsados.length+contadorNumerosExtra].innerHTML= pequenno;
-                    trp[numerosUsados.length+contadorNumerosExtra].style.display="inline";
-                    trg[numerosUsados.length+contadorNumerosExtra].innerHTML= grande;
-                    trg[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    divn[numerosUsados.length+contadorNumerosExtra].innerHTML= numerosUsados.length+contadorNumerosExtra+1;
+                    divn[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    divp[numerosUsados.length+contadorNumerosExtra].innerHTML= pequenno;
+                    divp[numerosUsados.length+contadorNumerosExtra].style.display="inline";
+                    divg[numerosUsados.length+contadorNumerosExtra].innerHTML= grande;
+                    divg[numerosUsados.length+contadorNumerosExtra].style.display="inline";
                     numerosNuevos.push({p:pequenno, g:grande});
                     
                 }else{
@@ -272,16 +240,6 @@ function buscar(){
         contador++;
         contadorNumerosExtra++;
         
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    botonListo=true;
     
     intervalo = setInterval(espera2, 50);
     console.log("el nuevo par es: " + pequenno+ " y " + grande);
@@ -368,17 +326,17 @@ function mensaje(peq=null,gra=null){
 
         for(let i=0; i<numerosUsados.length+contadorNumerosExtra; i++){
 
-            if(trp[i].innerHTML==numeros[i].p && trg[i].innerHTML==numeros[i].g){
+            if(divp[i].innerHTML==numeros[i].p && divg[i].innerHTML==numeros[i].g){
                 bienCopiados++;
             }else{
                 malCopiados.push({par: (i+1)});
             }
             
-            if(trp[i].innerHTML!=numeros[i].p){
+            if(divp[i].innerHTML!=numeros[i].p){
                 malCopiados[malCopiados.length-1].cateto = numeros[i].p;
             } 
             
-            if(trg[i].innerHTML!=numeros[i].g){
+            if(divg[i].innerHTML!=numeros[i].g){
                 malCopiados[malCopiados.length-1].hipotenusa = numeros[i].g;
             }
         }
@@ -407,7 +365,6 @@ function imprimir(){
             }else{
                 variable +=",\n{p:"+numerosNuevos[maximo+i].p+", g:"+numerosNuevos[maximo+i].g+"}";
             }
-            console.log(i)
         }
         console.log("numeros en el html que no están en los datos precargados:");
         console.log(variable);
@@ -424,24 +381,16 @@ function redimensionar(){
         maxSeccionesAlineadasPasadas= maxSeccionesAlineadas;
     }
 
-    if(window.innerWidth<=500){
+    if(window.innerWidth<=413){
         maxSeccionesAlineadas=1;
-    }else if(window.innerWidth<=770){
+    }else if(window.innerWidth<=647){
         maxSeccionesAlineadas=2;
-    }else if(window.innerWidth<=1000){
+    }else if(window.innerWidth<=888){
         maxSeccionesAlineadas=3;
-    }else if(window.innerWidth<=1270){
+    }else if(window.innerWidth<=1125){
         maxSeccionesAlineadas=4;
     }else{
         maxSeccionesAlineadas=5;
-    }
-
-    if(maxSeccionesAlineadas>totalSecciones && huboBoton){
-        if(totalSecciones<=5){
-            maxSeccionesAlineadas=totalSecciones;
-        }else{
-            maxSeccionesAlineadas=5;
-        }
     }
 
     if(!redimensionado){
@@ -453,32 +402,29 @@ function redimensionar(){
         pequenno = numerosUsados[numerosUsados.length-1].p;
         grande = numerosUsados[numerosUsados.length-1].g;
 
-        cantidadSeccionesAlineadasSuperior=numerosUsados.length/20;
         redimensionado=true;
     
-    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && cantidadDivs==1 && !huboBoton){
+    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas && completado && !huboBoton){
         
-        let indiceUltimoDiv=(div.length-1);
         const cantidadSeccionesFaltantes = maxSeccionesAlineadas-maxSeccionesAlineadasPasadas;
         for(i=0;i<cantidadSeccionesFaltantes; i++){
             
-            div[indiceUltimoDiv]=document.getElementById("div"+(indiceUltimoDiv+1));
             
             const indexSeccion=totalSecciones+i;
-            crearSeccion(indexSeccion, indiceUltimoDiv);
+            crearSeccion(indexSeccion);
                   
             
             for(let ii=i*20; ii<(i+1)*20; ii++){
                 numerosUsados.push(numeros[totalSecciones*20+ii]);
 
-                trn.push( document.getElementById("trn" + (totalSecciones*20+ii+1)) );
-                trn[trn.length-1].innerHTML= (totalSecciones*20+ii+1);
+                divn.push( document.getElementById("divn" + (totalSecciones*20+ii+1)) );
+                divn[divn.length-1].innerHTML= (totalSecciones*20+ii+1);
                 
-                trp.push( document.getElementById("trp" + (totalSecciones*20+ii+1)) );
-                trp[trp.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
+                divp.push( document.getElementById("divp" + (totalSecciones*20+ii+1)) );
+                divp[divp.length-1].innerHTML= numerosUsados[numerosUsados.length-1].p;
 
-                trg.push( document.getElementById("trg" + (totalSecciones*20+ii+1)) );
-                trg[trg.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
+                divg.push( document.getElementById("divg" + (totalSecciones*20+ii+1)) );
+                divg[divg.length-1].innerHTML= numerosUsados[numerosUsados.length-1].g;
             }   
             cantidadDePares+=20;
         }
@@ -487,356 +433,23 @@ function redimensionar(){
         grande = numerosUsados[numerosUsados.length-1].g;
         
         totalSecciones+=cantidadSeccionesFaltantes;
-        cantidadSeccionesAlineadas += cantidadSeccionesFaltantes;
         
-        if(totalSecciones < maxSeccionesAlineadas){
-            cantidadSeccionesAlineadasSuperior=totalSecciones;
-        }else{
-            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
+        if(maxSeccionesAlineadas==5){
+            completado=true;
         }
 
-    }else if(maxSeccionesAlineadas<maxSeccionesAlineadasPasadas && cantidadSeccionesAlineadasSuperior > maxSeccionesAlineadas){
-        let indiceUltimoDiv=(div.length-1);
-        let cantidadSeccionesSobrantes = maxSeccionesAlineadasPasadas-maxSeccionesAlineadas;
-        
-        if(cantidadSeccionesCreadas>0){
-            cantidadSeccionesNuevas=cantidadSeccionesCreadas;
-        }
-
-        if(cantidadDivs>1){
-            cantidadSeccionesSobrantes = totalSecciones - (maxSeccionesAlineadasPasadas - (maxSeccionesAlineadasPasadas- maxSeccionesAlineadas) );
-        }
-        
-        divCuadros=document.getElementById("div-cuadros");
-        for(let i = 0; i<cantidadSeccionesSobrantes; i++){
-            
-            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas && cantidadDivs==1){
-                indiceUltimoDiv--;
-            }
-
-            div[indiceUltimoDiv]= document.getElementById( "div"+(indiceUltimoDiv+1) );
-            console.log(div[indiceUltimoDiv])
-            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastElementChild);
-            cantidadSeccionesAlineadas--;
-
-            if(cantidadSeccionesAlineadas==0){
-                cantidadSeccionesAlineadas=cantidadSeccionesAlineadasSuperior;
-                divCuadros.removeChild(divCuadros.lastElementChild);
-                cantidadDivs--;
-                indiceUltimoDiv--;
-            }
-        }
-
-        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas;
-        
-        if(totalSecciones < maxSeccionesAlineadas){
-            cantidadSeccionesAlineadasSuperior=totalSecciones;
-        }else{
-            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
-        }
-        
-        totalSecciones -= cantidadSeccionesNuevas;
-        let contador = cantidadSeccionesAlineadas;
-        
-        for(let i = 0, iContada = 0; i<cantidadSeccionesSobrantes; i++){
-            
-            if(contador < maxSeccionesAlineadas){
-                contador++;
-            }else{
-                contador=1;
-                cantidadSeccionesAlineadas=0;
-                indiceUltimoDiv++;
-                cantidadDivs++;
-                crearDiv(cantidadDivs);
-            }
-            
-            div[indiceUltimoDiv]=document.getElementById("div"+(indiceUltimoDiv+1));
-            
-            const indexSeccion=totalSecciones-cantidadSeccionesSobrantes+i;
-            crearSeccion(indexSeccion, indiceUltimoDiv);
-            
-
-            let impresion;
-
-            let par;
-
-            if(totalSecciones-cantidadSeccionesSobrantes<numerosUsados.length/20 -i ){
-                impresion=numerosUsados;
-                par=(totalSecciones-cantidadSeccionesSobrantes+i)*20;
-            }else{
-                impresion=numerosNuevos;
-                par=iContada*20;
-                iContada++;
-            }
-            if(i<=cantidadSeccionesSobrantes){
-            
-                for(ii=0; ii<20; ii++){
-                    const indice=(totalSecciones-cantidadSeccionesSobrantes+i)*20 +ii;
-                    
-                    trn[indice]= document.getElementById( "trn" + (indice+1) ) ;
-                    trn[indice].innerHTML= (maxSeccionesAlineadas*20+ii+ 20*i+1);
-                    
-                    trp[indice]= document.getElementById( "trp" + ( indice+1) ) ;
-                    trp[indice].innerHTML= impresion[par +ii].p;
-
-                    trg[indice]= document.getElementById( "trg" + (indice+1) ) ;
-                    trg[indice].innerHTML= impresion[par +ii].g;
-                }
-            }
-
-            cantidadSeccionesAlineadas++;
-            
-        }
-
-
-        for(let i = 0; i<cantidadSeccionesNuevas; i++){
-            
-            const cantidadSeccionesBorradas=totalSecciones+cantidadSeccionesNuevas-maxSeccionesAlineadas;
-
-            if(cantidadSeccionesBorradas < cantidadSeccionesNuevas && i==0){
-                i += cantidadSeccionesNuevas - cantidadSeccionesBorradas;
-            }
-            
-            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
-                cantidadDivs++;
-                crearDiv(cantidadDivs);
-                cantidadSeccionesAlineadas=0;
-            }
-
-            const indexSeccion=totalSecciones+i;
-            const indiceDiv=cantidadDivs-1;
-            const valorBorderTr="0px";
-            const valorBorderSection="2px solid #560bad";
-            
-            crearSeccion(indexSeccion, indiceDiv, valorBorderTr, valorBorderSection);
-        
-            cantidadSeccionesAlineadas++;
-        }
-
-        let contraresta=contadorNumerosExtra%20;
-
-        if(contraresta == 0 && contadorNumerosExtra != 0){
-            contraresta= 20;
-        }
-        
-        
-        for(i=0; i<(cantidadSeccionesNuevas-1)*20+contraresta; i++){
-            const indice=totalSecciones*20+i;
-            
-            trn[indice]=document.getElementById("trn" + (indice+1));
-            trp[indice]=document.getElementById("trp" + (indice+1));
-            trg[indice]=document.getElementById("trg" + (indice+1));
-
-            trn[indice].innerHTML= indice+1;
-            trn[indice].style.borderBottom="2px solid #560bad";
-            trp[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].p;
-            trp[indice].style.borderBottom="2px solid #560bad";
-            trg[indice].innerHTML= numerosNuevos[totalSecciones*20-numerosUsados.length+i].g;
-            trg[indice].style.borderBottom="2px solid #560bad";
-
-            if((i+1)%20==0){
-                seccion=document.getElementById( "s" + (totalSecciones+(i+1)/20) );
-                seccion.style.borderBottom="0px";
-            }
-        }
-
-        totalSecciones += cantidadSeccionesNuevas;
-        cantidadSeccionesCreadas=cantidadSeccionesNuevas;
-        cantidadSeccionesNuevas = 0;
-        if(huboBoton){
-            huboRedimensionado=true;
-        }
-        
-        if(huboNuevos){
-            hayNuevos=0;
-            extra=1;
-            adicion++;
-        }
-        
-        boton.blur();
-        boton.focus();
-
-    
-    }else if(maxSeccionesAlineadas>maxSeccionesAlineadasPasadas){/* cuando hay mas de un div */
-        
-        let indiceUltimoDiv=(div.length-1);
-        let cantidadSeccionesSobrantes = totalSecciones-maxSeccionesAlineadasPasadas;
-        divCuadros=document.getElementById("div-cuadros");
-        
-        if(cantidadSeccionesCreadas>0){
-            cantidadSeccionesNuevas=cantidadSeccionesCreadas;
-        }
-
-
-        for(let i = 0; i<cantidadSeccionesSobrantes; i++){
-            
-            if(cantidadSeccionesAlineadas==0){
-                indiceUltimoDiv--;
-                cantidadSeccionesAlineadas=maxSeccionesAlineadasPasadas;
-                divCuadros.removeChild(divCuadros.lastElementChild);
-                div.pop();
-                cantidadDivs--;
-            }
-            
-            div[indiceUltimoDiv]= document.getElementById( "div"+(indiceUltimoDiv+1) );
-            div[indiceUltimoDiv].removeChild(div[indiceUltimoDiv].lastElementChild);
-            cantidadSeccionesAlineadas--; 
-        }
-        
-        indiceUltimoDiv--;
-        divCuadros.removeChild(divCuadros.lastElementChild);
-        div.pop();
-        cantidadDivs--;
-        cantidadSeccionesSobrantes -= cantidadSeccionesNuevas;
-
-        cantidadSeccionesAlineadas = maxSeccionesAlineadasPasadas;
-
-        if(totalSecciones < maxSeccionesAlineadas){
-            cantidadSeccionesAlineadasSuperior=totalSecciones;
-        }else{
-            cantidadSeccionesAlineadasSuperior=maxSeccionesAlineadas;
-        }
-        
-
-        totalSecciones -= cantidadSeccionesNuevas;
-
-
-        let contador = maxSeccionesAlineadasPasadas;
-        for(let i = 0, iContada = 0; i<cantidadSeccionesSobrantes; i++){
-            if(contador < maxSeccionesAlineadas){
-                contador++;
-            }else{
-                contador=1;
-                cantidadSeccionesAlineadas=0;
-                indiceUltimoDiv++;
-                cantidadDivs++;
-                crearDiv(cantidadDivs);
-            }
-            
-            div[indiceUltimoDiv]=document.getElementById("div"+(indiceUltimoDiv+1));
-            
-            const indexSeccion=totalSecciones-cantidadSeccionesSobrantes+i;
-            crearSeccion(indexSeccion, indiceUltimoDiv);
-            
-
-
-            let cantidadNumerosViejos;
-
-            if(totalSecciones-cantidadSeccionesSobrantes==numerosUsados.length/20-cantidadSeccionesSobrantes){
-                cantidadNumerosViejos=numerosUsados.length-cantidadSeccionesSobrantes*20;
-            }else{
-                cantidadNumerosViejos=totalSecciones*20-cantidadSeccionesSobrantes*20;
-            }
-
-            let impresion;
-
-            let par;
-
-            if(totalSecciones-cantidadSeccionesSobrantes<numerosUsados.length/20 -i ){
-                impresion=numerosUsados;
-                par=cantidadNumerosViejos + 20*i;
-            }else{
-                impresion=numerosNuevos;
-                par=iContada*20;
-                iContada++;
-            }
-
-            for(let ii=0; ii<20; ii++){
-                const indice= (totalSecciones-cantidadSeccionesSobrantes+i)*20 +ii;
-
-                trn[indice]= document.getElementById("trn" + (indice+1) );
-                trn[indice].innerHTML= indice+1;
-                
-                trp[indice]= document.getElementById("trp" + (indice+1) );
-                trp[indice].innerHTML= impresion[par +ii].p;
-
-                trg[indice]= document.getElementById("trg" + (indice+1) );
-                trg[indice].innerHTML= impresion[par +ii].g;
-                
-            }
-            cantidadSeccionesAlineadas++;
-        }
-
-        for(let i = 0; i<cantidadSeccionesNuevas; i++){
-            if(totalSecciones+cantidadSeccionesNuevas-maxSeccionesAlineadasPasadas<cantidadSeccionesNuevas && i==0){
-                i+=cantidadSeccionesNuevas-(totalSecciones+cantidadSeccionesNuevas -maxSeccionesAlineadasPasadas);
-            }
-            if(cantidadSeccionesAlineadas==maxSeccionesAlineadas){
-                indiceUltimoDiv++;
-                cantidadDivs++;
-                crearDiv(cantidadDivs);
-                cantidadSeccionesAlineadas=0;
-            }
-            div[cantidadDivs-1]=document.getElementById("div"+(cantidadDivs));
-            
-            const indexSeccion=totalSecciones+i;
-            const indiceDiv=cantidadDivs-1;
-            const valorBorderTr="0px";
-            const valorBorderSection="2px solid #560bad";
-            
-            crearSeccion(indexSeccion, indiceDiv, valorBorderTr, valorBorderSection);
-            
-            cantidadSeccionesAlineadas++;
-        }
-
-       
-        if(huboNuevos){
-            hayNuevos=0;
-            extra=1;
-            adicion+=20;
-        }
-
-        
-        let contraresta=contadorNumerosExtra%20;
-        if(contraresta == 0 && contadorNumerosExtra != 0){
-            contraresta= 20;
-        }
-
-        const cantidadDeImpresion = contraresta + (cantidadSeccionesNuevas-1)*20;
-        for(i=0; i<cantidadDeImpresion; i++){
-            const indice = totalSecciones*20 +i;
-            
-            trn[indice]=document.getElementById("trn" + (indice+1));
-            trp[indice]=document.getElementById("trp" + (indice+1));
-            trg[indice]=document.getElementById("trg" + (indice+1));
-            
-            parNuevo=numerosUsados.length+contadorNumerosExtra-contraresta-(cantidadSeccionesNuevas-1)*20+1+i;
-
-            trn[indice].innerHTML= parNuevo;
-            trn[indice].style.borderBottom="2px solid #560bad";
-            trp[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].p;
-            trp[indice].style.borderBottom="2px solid #560bad";
-            trg[indice].innerHTML= numerosNuevos[contadorNumerosExtra-cantidadDeImpresion+i].g;
-            trg[indice].style.borderBottom="2px solid #560bad";
-            if((i+1)%20==0){
-                seccion=document.getElementById( "s" + (totalSecciones+(i+1)/20) );
-                seccion.style.borderBottom="0px";
-            }
-        }
-
-        totalSecciones += cantidadSeccionesNuevas;
-        cantidadSeccionesCreadas=cantidadSeccionesNuevas;
-        cantidadSeccionesNuevas = 0;
-        if(huboBoton){
-            huboRedimensionado=true;
-        }
-        
     }
+
 }
 
-function crearDiv(numeroDiv){
-    div[numeroDiv-1]=document.createElement("div");
-    div[numeroDiv-1].id="div"+numeroDiv;
-    div[numeroDiv-1].className="caja";
-    divCuadros.appendChild(div[numeroDiv-1]);
-    div[numeroDiv-1].style.marginTop="30px";
-}
-function crearSeccion(index, indice, borderTr = "2px solid #560bad"){
+
+function crearSeccion(index, borderTr = "2px solid #560bad"){
     
     seccion=document.createElement("div");
     seccion.id="s"+(index+1);
     seccion.className="tablita";
-    div[indice].appendChild(seccion);
+    divCuadros=document.getElementById("div-cuadros");
+    divCuadros.appendChild(seccion);
 
     const numeral = document.createElement("div");
     numeral.className="celda th izquierda";
@@ -855,17 +468,17 @@ function crearSeccion(index, indice, borderTr = "2px solid #560bad"){
     for(let i=0;i<20;i++){
         
         const numero=document.createElement("div");
-        numero.id="trn"+(1+i+20*index);
-        numero.className="celda izquierda"
+        numero.id="divn"+(1+i+20*index);
+        numero.className="celda izquierda";
         seccion.appendChild(numero);
         
         const cateto=document.createElement("div");
-        cateto.id="trp"+(1+i+20*index);
+        cateto.id="divp"+(1+i+20*index);
         cateto.className="celda numero-menor";
         seccion.appendChild(cateto);
 
         const hipotenusa=document.createElement("div");
-        hipotenusa.id="trg"+(1+i+20*index);
+        hipotenusa.id="divg"+(1+i+20*index);
         hipotenusa.className="celda numero-mayor";
         seccion.appendChild(hipotenusa);
 
