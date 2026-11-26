@@ -20,7 +20,7 @@ The production environment is continuously deployed, monitored, and hosted on th
 ## 🧠 Core Engineering & Architecture Features
 
 ### 1. Hybrid Algorithmic Search Engine
-The core engine searches for specific Pythagorean triple pairs ($c = 2a$) by combining an instant preloaded cache (the first 1,000 valid pairs rendered at 6 per second) with an on-the-fly real-time calculation mode once preloaded data is depleted—seamlessly handling JavaScript's IEEE 754 floating-point precision limits without freezing the UI.
+The core engine searches for specific Pythagorean triple pairs $(c = 2a \land a, b, c \in \mathbb{Z})$ by combining an instant preloaded cache (the first 1,000 valid pairs rendered at 6 per second) with an on-the-fly real-time calculation mode once preloaded data is depleted—seamlessly handling JavaScript's IEEE 754 floating-point precision limits without freezing the UI.
 
 ### 2. Native CSS Layout & Sub-Pixel Precision
 Instead of relying on heavy JavaScript `resize` listeners to overwrite DOM tables manually, the layout architecture leverages modern native CSS:
@@ -46,7 +46,7 @@ To clone, audit, or run this technical infrastructure locally, execute the follo
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com
+git clone https://github.com/oema777
 
 # 2. Navigate to the project directory
 cd pitagorix
